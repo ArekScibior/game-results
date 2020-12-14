@@ -1,7 +1,7 @@
 <div class='main-container'>
   <mat-toolbar class='toolbar'>
     <span style="text-align: right;">Sprawdź wyniki Waszych wspólnych gier!</span>
-    <span style="text-align: left;">2020-12-14</span>
+    <span style="text-align: left;">{{timestamp}}</span>
   </mat-toolbar>
 
   <div class="row">
@@ -29,7 +29,7 @@
         <div class="input-group mb-3">
           <input [(ngModel)]="inputValue" style='height: 43px;' type="text" class="form-control" placeholder="Filtruj graczy" aria-label="Filtruj graczy" aria-describedby="basic-addon2">
           <div class="input-group-append">
-            <button (click)="filter(inputValue)" class="btn btn-outline-secondary" type="button"><span class="material-icons">search</span></button>
+            <button (click)="filterPlayers(inputValue)" class="btn btn-outline-secondary" type="button"><span class="material-icons">search</span></button>
           </div>
         </div>
       </div>

@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import * as _ from 'underscore';
 import { MatTableDataSource, MatPaginator } from '@angular/material'
+import { interval } from 'rxjs';
+import * as moment from 'moment';
 
 export interface ScoreElement {
   name: string;
@@ -61,6 +63,7 @@ const LOGO_GAMES: Logos[] = [
 
 
 let selectedGame = _.first(GAMES_TABLE).id
+
 @Component({
   selector: 'app-main-view',
   templateUrl: './main-view.component.html',
@@ -68,29 +71,41 @@ let selectedGame = _.first(GAMES_TABLE).id
 })
 export class MainViewComponent implements OnInit {
   @ViewChild(MatPaginator, null) paginator: MatPaginator;
-  fifa21Logo = LOGO_GAMES[0]
-  fifa20Logo = LOGO_GAMES[1]
-  ufc4Logo = LOGO_GAMES[2]
-  logosSource = LOGO_GAMES;
+  // initial variables
+  idInterval    = null
+  timestamp     = moment().format('YYYY.MM.DD HH:mm:ss')
 
-  gamesSource = GAMES_TABLE;
-  selectedGame = selectedGame
+  fifa21Logo    = LOGO_GAMES[0]
+  fifa20Logo    = LOGO_GAMES[1]
+  ufc4Logo      = LOGO_GAMES[2]
+  logosSource   = LOGO_GAMES;
 
+  gamesSource   = GAMES_TABLE;
+  selectedGame  = selectedGame;
+
+  //definicja kolumn dla tabeli z wynikami
   displayedColumns: string[] = ['position', 'name', 'points', 'scored', 'conceded'];
-  dataSource = new MatTableDataSource<ScoreElement>(SCORE_TABLE);
   fullDataSource = JSON.parse(JSON.stringify(SCORE_TABLE))
+  dataSource = new MatTableDataSource<ScoreElement>(SCORE_TABLE); 
   namesToFilter = _.pluck(SCORE_TABLE, 'name')
 
-  constructor() {
-    console.log('GAMES_TABLE', GAMES_TABLE)
-  }
+  constructor() {}
 
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
+    this.idInterval = setInterval(() => {
+      this.timestamp = moment(this.timestamp, 'YYYY.MM.DD HH:mm:ss').add(1, 's').format('YYYY.MM.DD HH:mm:ss')
+    }, 1000);
+  }
+  
+  ngOnDestroy() {
+    if (this.idInterval) {
+      clearInterval(this.idInterval);
+    }
   }
 
-  filter(value) {
+  filterPlayers(value) {
     this.dataSource = _.filter(this.fullDataSource, function(v) { return v.name.toLowerCase().indexOf(value.toLowerCase()) != -1})
-    console.log(this.dataSource)
+    console.log('filtered players: ', this.dataSource)
   }
 }
