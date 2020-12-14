@@ -1,0 +1,88 @@
+<div class='main-container'>
+  <mat-toolbar class='toolbar'>
+    <span style="text-align: right;">Sprawdź wyniki Waszych wspólnych gier!</span>
+    <span style="text-align: left;">2020-12-14</span>
+  </mat-toolbar>
+
+  <div class="row">
+    <div class="col-md-4">
+      <mat-form-field appearance="fill" class="select-game">
+        <mat-label>Wybierz grę:</mat-label>
+        <mat-select [(ngModel)]="selectedGame">
+          <mat-option *ngFor="let game of gamesSource" [value]="game.id">
+            {{game.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-md-4 selected-game-logo">
+      <img *ngIf="selectedGame == fifa21Logo.id" [src]="fifa21Logo.src" alt="" width="300" height="150">
+      <img *ngIf="selectedGame == fifa20Logo.id" [src]="fifa20Logo.src" alt="" width="200" height="130">
+      <img *ngIf="selectedGame == ufc4Logo.id" [src]="ufc4Logo.src" alt="" width="300" height="110">
+    </div>
+  </div>
+  
+  <div>
+    <div class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-2">
+        <div class="input-group mb-3">
+          <input [(ngModel)]="inputValue" style='height: 43px;' type="text" class="form-control" placeholder="Filtruj graczy" aria-label="Filtruj graczy" aria-describedby="basic-addon2">
+          <div class="input-group-append">
+            <button (click)="filter(inputValue)" class="btn btn-outline-secondary" type="button"><span class="material-icons">search</span></button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-9"></div>
+      
+    </div>
+    <div class="row table-wrap">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <mat-table [dataSource]="dataSource" class="mat-elevation-z8 score-table">
+  
+          <!--- Note that these columns can be defined in any order.
+                The actual rendered columns are set as a property on the row definition" -->
+        
+          <!-- Position Column -->
+          <ng-container matColumnDef="position">
+            <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
+          </ng-container>
+        
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+          </ng-container>
+        
+          <!-- Points Column -->
+          <ng-container matColumnDef="points">
+            <mat-header-cell *matHeaderCellDef> Points </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.points}} </mat-cell>
+          </ng-container>
+        
+          <!-- Scored Column -->
+          <ng-container matColumnDef="scored">
+            <mat-header-cell *matHeaderCellDef> Scored </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.scored}} </mat-cell>
+          </ng-container>
+    
+          <!-- Conceded Column -->
+          <ng-container matColumnDef="conceded">
+            <mat-header-cell *matHeaderCellDef> Conceded </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.conceded}} </mat-cell>
+          </ng-container>
+        
+          <mat-header-row *matHeaderRowDef="displayedColumns sticky: true"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+        <mat-paginator #paginator [pageSize]="8" [pageSizeOptions]="[5, 10, 25, 50]"></mat-paginator>
+      </div>
+      <div class="col-md-1"></div>
+      
+    </div>
+  </div>
+  
+  
+</div>

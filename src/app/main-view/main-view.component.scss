@@ -1,0 +1,40 @@
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+.main-container {
+    width: 100%;
+  
+}
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+}
+.table-wrap {
+    display:flex;
+    justify-content: center;
+    margin-top:20px;
+}
+.score-table {
+    width: 100%;
+}
+
+.select-game {
+    margin-top: 23px;
+    margin-left: 13px;
+}
+
+.select-game mat-label {
+    color: #fff;
+    font-size: 19px;
+    font-weight: 500;
+}
+
+.selected-game-logo {
+    display:flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.mat-table {
+    max-height: 400px;
+    overflow: auto;
+    width: 100%;
+  }
