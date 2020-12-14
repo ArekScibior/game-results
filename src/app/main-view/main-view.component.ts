@@ -105,7 +105,8 @@ export class MainViewComponent implements OnInit {
   }
 
   filterPlayers(value) {
-    this.dataSource = _.filter(this.fullDataSource, function(v) { return v.name.toLowerCase().indexOf(value.toLowerCase()) != -1})
-    console.log('filtered players: ', this.dataSource)
+    let filtered = _.filter(this.fullDataSource, function(v) { return v.name.toLowerCase().indexOf(value.toLowerCase()) != -1})
+    this.dataSource = new MatTableDataSource<ScoreElement>(filtered);
+    this.dataSource.paginator = this.paginator;
   }
 }
