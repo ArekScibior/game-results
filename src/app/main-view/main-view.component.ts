@@ -67,15 +67,13 @@ let scores = {
   
 }
 
-const updatePosition = function(arr) {
-  _.each(arr, function(v, idx) {
+const updatePositionAndSort = function(sorted) {
+  sorted = _.sortBy(sorted, 'points').reverse()
+  _.each(sorted, function(v, idx) {
     v.position = idx + 1
   })
+  return sorted
 }
-
-scores = _.chain(scores).each(function(el, idx) {
-  updatePosition(el)
-}).value()
 
 const GAMES_TABLE: GamesElement[] = [
   {id: 1, display: 'FIFA 21', name:'fifa21'},
@@ -114,7 +112,7 @@ export class MainViewComponent implements OnInit {
   initSelectedGameName = _.findWhere(this.gamesSource, {id: selectedGame})
 
   //definicja kolumn dla tabeli z wynikami oraz init gry na fifa21
-  initialGame = _.sortBy(scores['fifa21'], 'points').reverse()
+  initialGame = updatePositionAndSort(scores['fifa21'])
 
   displayedColumns: string[] = ['position', 'name', 'points', 'scored', 'conceded'];
   fullDataSource = JSON.parse(JSON.stringify(this.initialGame))
@@ -149,7 +147,7 @@ export class MainViewComponent implements OnInit {
 
   gameChanged(val) {
     let name = _.findWhere(this.gamesSource, {id: val}).name
-    let gameDataSource = _.sortBy(scores[name], 'points').reverse()
+    let gameDataSource = updatePositionAndSort(scores[name])
     this.fullDataSource = JSON.parse(JSON.stringify(gameDataSource))
     this.dataSource = new MatTableDataSource<ScoreElement>(gameDataSource); 
     this.namesToFilter = _.pluck(gameDataSource, 'name')
