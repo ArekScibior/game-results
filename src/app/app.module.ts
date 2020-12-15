@@ -41,11 +41,13 @@ import {
   MatTooltipModule,
   MatStepperModule,
 } from '@angular/material';
+import { DialogOverviewComponent } from './dialogOverview/dialogOverview.component';
 
 @NgModule({
   declarations: [	
     AppComponent,
-    MainViewComponent
+    MainViewComponent,
+    DialogOverviewComponent
    ],
   imports: [
     BrowserModule,
@@ -90,6 +92,7 @@ import {
     NgxTypeaheadModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [DialogOverviewComponent]
 })
 export class AppModule { }

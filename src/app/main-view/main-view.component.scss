@@ -37,4 +37,15 @@
     max-height: 400px;
     overflow: auto;
     width: 100%;
-  }
+}
+
+.button-add-parent {
+    background-color:#fff;
+    height: 50px;
+}
+
+.button-add-parent button {
+    border-radius: 0;
+    background-color: #883CF8;
+    text-align: right;
+}

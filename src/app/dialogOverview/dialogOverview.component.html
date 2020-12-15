@@ -1,0 +1,37 @@
+<h1 mat-dialog-title>Wprowadzanie wyników</h1>
+<div mat-dialog-content>
+  <div class="row" style="margin-bottom: 10px;">
+    <div class="col-md-3">
+      <label for=""><b>Gracz 1:</b></label>
+    </div>
+    <div class="col-md-9">
+      <input style="width: 60%;" [value]="player1"
+        ngxTypeahead
+        [taList]="players"
+        (taSelected)="selectedPlayer($event, 1)">
+    </div>
+  </div>
+  <div class="row" style="margin-bottom: 10px;">
+    <div class="col-md-3">
+      <label for=""><b>Gracz 2:</b></label>
+    </div>
+    <div class="col-md-9">
+      <input style="width: 60%;" [value]="player2"
+          ngxTypeahead
+          [taList]="players"
+          (taSelected)="selectedPlayer($event, 2)">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <b>Wynik spotkania: </b>
+    </div>
+    <div class="col-md-9">
+      {{player1}} <b><input [ngModel]="player1Score" style='width: 7%;' type="number" min="0" step="1" (ngModelChange)="onChange($event, 1)"> - <input [ngModel]="player2Score" style='width: 7%;' type="number" min="0" step="1" (ngModelChange)="onChange($event, 2)"></b> {{player2}}
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="close()">Anuluj</button>
+  <button mat-button (click)="save()">Zapisz</button>
+</div>

@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import * as _ from 'underscore';
 import { MatTableDataSource, MatPaginator, MatSort} from '@angular/material'
-import { interval } from 'rxjs';
+import {MatDialog, MatDialogConfig} from "@angular/material";
+import { DialogOverviewComponent } from '../dialogOverview/dialogOverview.component';
 import * as moment from 'moment';
 
 export interface ScoreElement {
@@ -18,12 +19,22 @@ export interface GamesElement {
   display: string;
 }
 
+export interface Players {
+  id: number;
+  name: string;
+}
+
 export interface Logos {
   id: number;
   src: string;
 }
 
-
+export interface DialogData {
+  nameHome: string;
+  nameAway: string;
+  scoreHome: number;
+  scoreAway: number;
+}
 
 // SCORE_TABLE = _.chain(SCORE_TABLE).sortBy('points').reverse().each(function(el, idx) {
 //   el.position = idx + 1
@@ -75,6 +86,15 @@ const updatePositionAndSort = function(sorted) {
   return sorted
 }
 
+const PLAYERS: Players[] = [
+  {id: 1, name:'Arek Ścibior'},
+  {id: 2, name:'Michał Ścibior'},
+  {id: 3, name:'Emil Ścibior'},
+  {id: 4, name:'Kasia Cyrkler'},
+  {id: 5, name:'Karol Karczmarski'},
+  {id: 6, name:'Andrzej Ścibior'}
+];
+
 const GAMES_TABLE: GamesElement[] = [
   {id: 1, display: 'FIFA 21', name:'fifa21'},
   {id: 2, display: 'FIFA 20', name:'fifa20'},
@@ -98,6 +118,7 @@ let selectedGame = _.first(GAMES_TABLE).id
 export class MainViewComponent implements OnInit {
   @ViewChild(MatPaginator, null) paginator: MatPaginator;
   @ViewChild(MatSort, null) sort: MatSort;
+ 
   // initial variables
   idInterval    = null
   timestamp     = moment().format('YYYY.MM.DD HH:mm:ss')
@@ -119,7 +140,7 @@ export class MainViewComponent implements OnInit {
   dataSource = new MatTableDataSource<ScoreElement>(this.initialGame);
   namesToFilter = _.pluck(this.initialGame, 'name')
 
-  constructor() {}
+  constructor( public dialog: MatDialog) {}
 
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
@@ -154,4 +175,25 @@ export class MainViewComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
+
+  openEntryModal(): void {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.minWidth = '700px';
+    dialogConfig.position = {
+      'top': '15%',
+      left: '35%'
+    };
+    dialogConfig.data = {
+      'playerList': _.pluck(PLAYERS, 'name'),
+      'dataScore': {}
+    }
+
+    const dialogRef = this.dialog.open(DialogOverviewComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(data => {
+      console.log('data', data)
+    });
+}
 }
