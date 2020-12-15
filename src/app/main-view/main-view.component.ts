@@ -15,6 +15,7 @@ export interface ScoreElement {
 export interface GamesElement {
   id: number;
   name: string;
+  display: string;
 }
 
 export interface Logos {
@@ -22,37 +23,64 @@ export interface Logos {
   src: string;
 }
 
-let SCORE_TABLE: ScoreElement[] = [
-  {position: 1, name: 'Hydrogen', points: 15, scored: 15, conceded: 15},
-  {position: 2, name: 'Helium', points: 9, scored: 15, conceded: 15},
-  {position: 3, name: 'Lithium', points: 9, scored: 15, conceded: 15},
-  {position: 4, name: 'Beryllium', points: 5, scored: 15, conceded: 15},
-  {position: 5, name: 'Boron', points: 0, scored: 15, conceded: 15},
-  {position: 6, name: 'Carbon', points: 11, scored: 15, conceded: 15},
-  {position: 7, name: 'Nitrogen', points: 23, scored: 15, conceded: 15},
-  {position: 8, name: 'Oxygen', points: 13, scored: 15, conceded: 15},
-  {position: 9, name: 'Fluorine', points: 28, scored: 15, conceded: 15},
-  {position: 10, name: 'Neon', points: 21, scored: 15, conceded: 15},
-  {position: 1, name: 'Hydrogen', points: 15, scored: 15, conceded: 15},
-  {position: 2, name: 'Helium', points: 9, scored: 15, conceded: 15},
-  {position: 3, name: 'Lithium', points: 9, scored: 15, conceded: 15},
-  {position: 4, name: 'Beryllium', points: 5, scored: 15, conceded: 15},
-  {position: 5, name: 'Boron', points: 0, scored: 15, conceded: 15},
-  {position: 6, name: 'Carbon', points: 11, scored: 15, conceded: 15},
-  {position: 7, name: 'Nitrogen', points: 23, scored: 15, conceded: 15},
-  {position: 8, name: 'Oxygen', points: 13, scored: 15, conceded: 15},
-  {position: 9, name: 'Fluorine', points: 28, scored: 15, conceded: 15},
-  {position: 10, name: 'Neon', points: 21, scored: 15, conceded: 15},
-];
 
-SCORE_TABLE = _.chain(SCORE_TABLE).sortBy('points').reverse().each(function(el, idx) {
-  el.position = idx + 1
+
+// SCORE_TABLE = _.chain(SCORE_TABLE).sortBy('points').reverse().each(function(el, idx) {
+//   el.position = idx + 1
+// }).value()
+
+let scores = {
+  'fifa20': 
+    [{position: 1, name: 'Hydrogen', points: 15, scored: 15, conceded: 15},
+    {position: 2, name: 'Helium', points: 9, scored: 15, conceded: 15},
+    {position: 3, name: 'Lithium', points: 9, scored: 15, conceded: 15},
+    {position: 4, name: 'Beryllium', points: 5, scored: 15, conceded: 15},
+    {position: 2, name: 'Helium', points: 9, scored: 15, conceded: 15},
+    {position: 3, name: 'Lithium', points: 9, scored: 15, conceded: 15},
+    {position: 4, name: 'Beryllium', points: 5, scored: 15, conceded: 15}],
+  'fifa21': 
+    [{position: 1, name: 'Hydrogen', points: 15, scored: 15, conceded: 15},
+    {position: 2, name: 'Helium', points: 9, scored: 15, conceded: 15},
+    {position: 3, name: 'Lithium', points: 9, scored: 15, conceded: 15},
+    {position: 4, name: 'Beryllium', points: 5, scored: 15, conceded: 15},
+    {position: 5, name: 'Boron', points: 0, scored: 15, conceded: 15},
+    {position: 6, name: 'Carbon', points: 11, scored: 15, conceded: 15},
+    {position: 7, name: 'Nitrogen', points: 23, scored: 15, conceded: 15},
+    {position: 8, name: 'Oxygen', points: 13, scored: 15, conceded: 15},
+    {position: 9, name: 'Fluorine', points: 28, scored: 15, conceded: 15},
+    {position: 10, name: 'Neon', points: 21, scored: 15, conceded: 15},
+    {position: 1, name: 'Hydrogen', points: 15, scored: 15, conceded: 15},
+    {position: 2, name: 'Helium', points: 9, scored: 15, conceded: 15},
+    {position: 3, name: 'Lithium', points: 9, scored: 15, conceded: 15},
+    {position: 4, name: 'Beryllium', points: 5, scored: 15, conceded: 15},
+    {position: 5, name: 'Boron', points: 0, scored: 15, conceded: 15},
+    {position: 6, name: 'Carbon', points: 11, scored: 15, conceded: 15},
+    {position: 7, name: 'Nitrogen', points: 23, scored: 15, conceded: 15},
+    {position: 8, name: 'Oxygen', points: 13, scored: 15, conceded: 15},
+    {position: 9, name: 'Fluorine', points: 28, scored: 15, conceded: 15},
+    {position: 10, name: 'Neon', points: 21, scored: 15, conceded: 15}],
+  'ufc4': 
+    [{position: 1, name: 'Hydrogen', points: 15, scored: 15, conceded: 15},
+    {position: 2, name: 'Helium', points: 9, scored: 15, conceded: 15},
+    {position: 3, name: 'Lithium', points: 9, scored: 15, conceded: 15},
+    {position: 4, name: 'Beryllium', points: 5, scored: 15, conceded: 15}]
+  
+}
+
+const updatePosition = function(arr) {
+  _.each(arr, function(v, idx) {
+    v.position = idx + 1
+  })
+}
+
+scores = _.chain(scores).each(function(el, idx) {
+  updatePosition(el)
 }).value()
 
 const GAMES_TABLE: GamesElement[] = [
-  {id: 1, name: 'FIFA 21'},
-  {id: 2, name: 'FIFA 20'},
-  {id: 3, name: 'UFC 4'},
+  {id: 1, display: 'FIFA 21', name:'fifa21'},
+  {id: 2, display: 'FIFA 20', name:'fifa20'},
+  {id: 3, display: 'UFC 4', name:'ufc4'},
 ];
 
 const LOGO_GAMES: Logos[] = [
@@ -83,12 +111,15 @@ export class MainViewComponent implements OnInit {
 
   gamesSource   = GAMES_TABLE;
   selectedGame  = selectedGame;
+  initSelectedGameName = _.findWhere(this.gamesSource, {id: selectedGame})
 
-  //definicja kolumn dla tabeli z wynikami
+  //definicja kolumn dla tabeli z wynikami oraz init gry na fifa21
+  initialGame = _.sortBy(scores['fifa21'], 'points').reverse()
+
   displayedColumns: string[] = ['position', 'name', 'points', 'scored', 'conceded'];
-  fullDataSource = JSON.parse(JSON.stringify(SCORE_TABLE))
-  dataSource = new MatTableDataSource<ScoreElement>(SCORE_TABLE); 
-  namesToFilter = _.pluck(SCORE_TABLE, 'name')
+  fullDataSource = JSON.parse(JSON.stringify(this.initialGame))
+  dataSource = new MatTableDataSource<ScoreElement>(this.initialGame);
+  namesToFilter = _.pluck(this.initialGame, 'name')
 
   constructor() {}
 
@@ -112,6 +143,16 @@ export class MainViewComponent implements OnInit {
   filterPlayers(value) {
     let filtered = _.filter(this.fullDataSource, function(v) { return v.name.toLowerCase().indexOf(value.toLowerCase()) != -1})
     this.dataSource = new MatTableDataSource<ScoreElement>(filtered);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  gameChanged(val) {
+    let name = _.findWhere(this.gamesSource, {id: val}).name
+    let gameDataSource = _.sortBy(scores[name], 'points').reverse()
+    this.fullDataSource = JSON.parse(JSON.stringify(gameDataSource))
+    this.dataSource = new MatTableDataSource<ScoreElement>(gameDataSource); 
+    this.namesToFilter = _.pluck(gameDataSource, 'name')
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }

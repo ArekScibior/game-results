@@ -8,9 +8,9 @@
     <div class="col-md-4">
       <mat-form-field appearance="fill" class="select-game">
         <mat-label>Wybierz grę:</mat-label>
-        <mat-select [(ngModel)]="selectedGame">
+        <mat-select (selectionChange)="gameChanged($event.value)" [(ngModel)]="selectedGame">
           <mat-option *ngFor="let game of gamesSource" [value]="game.id">
-            {{game.name}}
+            {{game.display}}
           </mat-option>
         </mat-select>
       </mat-form-field>
