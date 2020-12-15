@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import * as _ from 'underscore';
-import { MatTableDataSource, MatPaginator } from '@angular/material'
+import { MatTableDataSource, MatPaginator, MatSort} from '@angular/material'
 import { interval } from 'rxjs';
 import * as moment from 'moment';
 
@@ -71,6 +71,7 @@ let selectedGame = _.first(GAMES_TABLE).id
 })
 export class MainViewComponent implements OnInit {
   @ViewChild(MatPaginator, null) paginator: MatPaginator;
+  @ViewChild(MatSort, null) sort: MatSort;
   // initial variables
   idInterval    = null
   timestamp     = moment().format('YYYY.MM.DD HH:mm:ss')
@@ -97,7 +98,11 @@ export class MainViewComponent implements OnInit {
       this.timestamp = moment(this.timestamp, 'YYYY.MM.DD HH:mm:ss').add(1, 's').format('YYYY.MM.DD HH:mm:ss')
     }, 1000);
   }
-  
+
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+  }
+
   ngOnDestroy() {
     if (this.idInterval) {
       clearInterval(this.idInterval);
@@ -108,5 +113,6 @@ export class MainViewComponent implements OnInit {
     let filtered = _.filter(this.fullDataSource, function(v) { return v.name.toLowerCase().indexOf(value.toLowerCase()) != -1})
     this.dataSource = new MatTableDataSource<ScoreElement>(filtered);
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 }

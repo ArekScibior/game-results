@@ -39,38 +39,38 @@
     <div class="row table-wrap">
       <div class="col-md-1"></div>
       <div class="col-md-10">
-        <mat-table [dataSource]="dataSource" class="mat-elevation-z8 score-table">
+        <mat-table matSort [dataSource]="dataSource" class="mat-elevation-z8 score-table">
   
           <!--- Note that these columns can be defined in any order.
                 The actual rendered columns are set as a property on the row definition" -->
         
           <!-- Position Column -->
           <ng-container matColumnDef="position">
-            <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header> No. </mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
           </ng-container>
         
           <!-- Name Column -->
           <ng-container matColumnDef="name">
-            <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
           </ng-container>
         
           <!-- Points Column -->
           <ng-container matColumnDef="points">
-            <mat-header-cell *matHeaderCellDef> Points </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Points </mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.points}} </mat-cell>
           </ng-container>
         
           <!-- Scored Column -->
           <ng-container matColumnDef="scored">
-            <mat-header-cell *matHeaderCellDef> Scored </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Scored </mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.scored}} </mat-cell>
           </ng-container>
     
           <!-- Conceded Column -->
           <ng-container matColumnDef="conceded">
-            <mat-header-cell *matHeaderCellDef> Conceded </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Conceded </mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.conceded}} </mat-cell>
           </ng-container>
         
