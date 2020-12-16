@@ -8,6 +8,7 @@ import { MainViewComponent } from './main-view/main-view.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
+import { ToastrModule } from 'ngx-toastr'
 import {
   MatAutocompleteModule,
   MatButtonModule,
@@ -89,7 +90,8 @@ import { DialogOverviewComponent } from './dialogOverview/dialogOverview.compone
     MatStepperModule,
     FormsModule, 
     ReactiveFormsModule,
-    TypeaheadModule.forRoot()
+    TypeaheadModule.forRoot(),
+    ToastrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent],

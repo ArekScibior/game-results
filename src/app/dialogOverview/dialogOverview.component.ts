@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
 import * as _ from 'underscore';
 
@@ -11,6 +12,7 @@ import * as _ from 'underscore';
 export class DialogOverviewComponent implements OnInit {
 	players: [];
 	constructor(
+		public toastr: ToastrService,
 		@Inject(MAT_DIALOG_DATA) public data: any,
 		public dialogRef: MatDialogRef<DialogOverviewComponent>) { }
 
@@ -31,26 +33,37 @@ export class DialogOverviewComponent implements OnInit {
 		let existPlayer1 = _.contains(this.players, data.player1)
 		console.log(data.player1Score, data.player1Score == 0)
 		let existPlayer2 = _.contains(this.players, data.player2)
-
-		if (data.player1 == data.player2) {
-			console.log('Wybrani gracze są tacy sami.')
+		if (data.player1 == "") {
+			this.toastr.error("Proszę uzupełnić pole Gracz nr 1.", "")
 			return true;
 		}
+
+		if (data.player2 == "") {
+			this.toastr.error("Proszę uzupełnić pole Gracz nr 2.", "")
+			return true;
+		}
+
+		if (data.player1 == data.player2) {
+			this.toastr.error("Wybrani gracze są tacy sami.", "")
+			return true;
+		}
+
 		if (!existPlayer1) {
-			console.log('Błędny zawodnik numer 1')
+			this.toastr.error("Nie znaleziono gracza nr 1. Wybierz z listy.", "")
 			return true;
 		}
 		if (!existPlayer2) {
-			console.log('Błędny zawodnik numer 2')
+			this.toastr.error("Nie znaleziono gracza nr 1. Wybierz z listy.", "")
 			return true;
 		}
 
-		if (data.player1Score != 0 && data.player1Score == "") {
-			console.log('Brak uzupełnionego wyniku zawodnika numer 1')
+		if (data.player1Score !== 0 && data.player1Score === "") {
+			this.toastr.error("Proszę uzupełnić wynik gracza nr 1.", "")
 			return true;
 		}
-		if (data.player1Score != 0 && data.player1Score == "") {
-			console.log('Brak uzupełnionego wyniku zawodnika numer 2')
+
+		if (data.player2Score !== 0 && data.player2Score === "") {
+			this.toastr.error("Proszę uzupełnić wynik gracza nr 2.", "")
 			return true;
 		}
 		return false;
