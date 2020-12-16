@@ -67,6 +67,30 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header> Punkty </mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.points}} </mat-cell>
           </ng-container>
+
+          <!-- Win rate Column -->
+          <ng-container matColumnDef="winRate">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Win Rate (%) </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.winRate}} </mat-cell>
+          </ng-container>
+
+          <!-- Wins Column -->
+          <ng-container matColumnDef="wins">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Zwycięstwa </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.wins}} </mat-cell>
+          </ng-container>
+
+          <!-- Losses Column -->
+          <ng-container matColumnDef="losses">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Porażki </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.losses}} </mat-cell>
+          </ng-container>
+
+          <!-- Draws Column -->
+          <ng-container matColumnDef="draws">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Remisy </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.draws}} </mat-cell>
+          </ng-container>
         
           <!-- Scored Column -->
           <ng-container matColumnDef="scored">

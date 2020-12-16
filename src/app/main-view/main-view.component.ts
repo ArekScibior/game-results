@@ -12,9 +12,13 @@ export interface ScoreElement {
   name: string;
   position: number;
   matches: number;
+  wins: number;
+  losses: number;
+  draws: number;
   points: number;
   scored: number;
   conceded: number;
+  winRate: string;
 }
 
 export interface GamesElement {
@@ -42,15 +46,20 @@ export interface DialogData {
 
 let SCORES = (dataJSON as any).default;
 
-const updatePositionAndSort = function(sorted) {
-  sorted.sort(function (a, b) {
+const mapScoreTable = function(scoreTable) {
+  scoreTable.sort(function (a, b) {
       return a.points - b.points || a.scored - b.scored;
   }).reverse();
 
-  _.each(sorted, function(v, idx) {
+  _.each(scoreTable, function(v, idx) {
+    let winRate = 0
+    winRate = ((v.wins / v.matches) * 100)
     v.position = idx + 1
+    v.winRate = parseFloat(winRate.toFixed(2)) + "%"
+    
   })
-  return sorted
+  console.log(scoreTable)
+  return scoreTable
 }
 
 const PLAYERS: Players[] = (playersJSON as any).default
@@ -87,9 +96,9 @@ export class MainViewComponent implements OnInit {
   initSelectedGameName = _.findWhere(this.gamesSource, {id: selectedGame})
 
   //definicja kolumn dla tabeli z wynikami oraz init gry na fifa21
-  initialGame = updatePositionAndSort(SCORES['fifa21'])
+  initialGame = mapScoreTable(SCORES['fifa21'])
 
-  displayedColumns: string[] = ['position', 'name', 'matches', 'points', 'scored', 'conceded'];
+  displayedColumns: string[] = ['position', 'name', 'matches', 'wins', 'losses', 'draws', 'winRate', 'points', 'scored', 'conceded'];
   fullDataSource = JSON.parse(JSON.stringify(this.initialGame))
   dataSource = new MatTableDataSource<ScoreElement>(this.initialGame);
   namesToFilter = _.pluck(this.initialGame, 'name')
@@ -121,7 +130,7 @@ export class MainViewComponent implements OnInit {
   }
 
   updateScoreTable(scoretable) {
-    let gameDataSource = updatePositionAndSort(scoretable)
+    let gameDataSource = mapScoreTable(scoretable)
     this.fullDataSource = JSON.parse(JSON.stringify(gameDataSource))
     this.dataSource = new MatTableDataSource<ScoreElement>(gameDataSource); 
     this.namesToFilter = _.pluck(gameDataSource, 'name')
@@ -131,7 +140,7 @@ export class MainViewComponent implements OnInit {
 
   gameChanged(val) {
     let name = _.findWhere(this.gamesSource, {id: val}).name
-    let gameDataSource = updatePositionAndSort(SCORES[name])
+    let gameDataSource = mapScoreTable(SCORES[name])
     this.fullDataSource = JSON.parse(JSON.stringify(gameDataSource))
     this.dataSource = new MatTableDataSource<ScoreElement>(gameDataSource); 
     this.namesToFilter = _.pluck(gameDataSource, 'name')
@@ -145,35 +154,41 @@ export class MainViewComponent implements OnInit {
     if (score.player1Score > score.player2Score) {
       let winner = _.findWhere(rawData, {name: score.player1})
       winner.matches = winner.matches + 1
+      winner.wins = winner.wins + 1
       winner.points = winner.points + 3
       winner.scored = winner.scored + score.player1Score
       winner.conceded = winner.conceded + score.player2Score
 
       let looser = _.findWhere(rawData, {name: score.player2})
       looser.matches = looser.matches + 1
+      looser.losses = looser.losses + 1
       looser.scored = looser.scored + score.player2Score
       looser.conceded = looser.conceded + score.player1Score
 
     } else if (score.player1Score < score.player2Score) {
       let winner = _.findWhere(rawData, {name: score.player2})
       winner.matches = winner.matches + 1
+      winner.wins = winner.wins + 1
       winner.points = winner.points + 3
       winner.scored = winner.scored + score.player2Score
       winner.conceded = winner.conceded + score.player1Score
 
       let looser = _.findWhere(rawData, {name: score.player1})
       looser.matches = looser.matches + 1
+      looser.losses = looser.losses + 1
       looser.scored = looser.scored + score.player1Score
       looser.conceded = looser.conceded + score.player2Score
     } else if (score.player1Score === score.player2Score) {
       let player1 = _.findWhere(rawData, {name: score.player1})
       player1.matches = player1.matches + 1
+      player1.draws = player1.draws + 1
       player1.points = player1.points + 1
       player1.scored = player1.scored + score.player1Score
       player1.conceded = player1.conceded + score.player2Score
 
       let player2 = _.findWhere(rawData, {name: score.player2})
       player2.matches = player2.matches + 1
+      player2.draws = player2.draws + 1
       player2.points = player2.points + 1
       player2.scored = player2.scored + score.player2Score
       player2.conceded = player2.conceded + score.player1Score
