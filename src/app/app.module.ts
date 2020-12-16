@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainViewComponent } from './main-view/main-view.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { NgxTypeaheadModule } from 'ngx-typeahead';
+import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import {
   MatAutocompleteModule,
   MatButtonModule,
@@ -89,7 +89,7 @@ import { DialogOverviewComponent } from './dialogOverview/dialogOverview.compone
     MatStepperModule,
     FormsModule, 
     ReactiveFormsModule,
-    NgxTypeaheadModule
+    TypeaheadModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent],

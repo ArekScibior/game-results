@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as moment from 'moment';
 import * as _ from 'underscore';
@@ -6,7 +6,7 @@ import * as _ from 'underscore';
 @Component({
 	selector: 'app-dialogOverview',
 	templateUrl: './dialogOverview.component.html',
-	styleUrls: ['./dialogOverview.component.css']
+	styleUrls: ['./dialogOverview.component.scss']
 })
 export class DialogOverviewComponent implements OnInit {
 	players: [];
@@ -18,10 +18,6 @@ export class DialogOverviewComponent implements OnInit {
 	player2 = '';
 	player1Score = '';
 	player2Score = '';
-	selectedPlayer(result, id) {
-		console.log(result, id)
-		if (id == 1) { this.player1 = result } else if (id == 2) {this.player2 = result}
-	}
 
 	onChange(res, id) {
 		if (id == 1) { this.player1Score = res } else if (id == 2) {this.player2Score = res}
@@ -32,9 +28,7 @@ export class DialogOverviewComponent implements OnInit {
 	}
 
 	valid(data): any {
-		console.log('data', data)
 		let existPlayer1 = _.contains(this.players, data.player1)
-		console.log(existPlayer1, this.players)
 		let existPlayer2 = _.contains(this.players, data.player2)
 		if (!existPlayer1) {
 			console.log('Błędny zawodnik numer 1')

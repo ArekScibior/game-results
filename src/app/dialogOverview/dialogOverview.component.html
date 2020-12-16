@@ -1,14 +1,15 @@
-<h1 mat-dialog-title>Wprowadzanie wyników</h1>
+<h1 style="margin-bottom: 20px;" mat-dialog-title>Wprowadzanie wyników</h1>
 <div mat-dialog-content>
-  <div class="row" style="margin-bottom: 10px;">
+  <div class="row" style="margin-bottom: 20px;">
     <div class="col-md-3">
       <label for=""><b>Gracz 1:</b></label>
     </div>
     <div class="col-md-9">
-      <input style="width: 60%;" [value]="player1"
-        ngxTypeahead
-        [taList]="players"
-        (taSelected)="selectedPlayer($event, 1)">
+      <input [(ngModel)]="player1"
+            [typeahead]="players"
+            [typeaheadScrollable]="true"
+            [typeaheadOptionsInScrollableView]="6"
+            class="form-control">
     </div>
   </div>
   <div class="row" style="margin-bottom: 10px;">
@@ -16,10 +17,11 @@
       <label for=""><b>Gracz 2:</b></label>
     </div>
     <div class="col-md-9">
-      <input style="width: 60%;" [value]="player2"
-          ngxTypeahead
-          [taList]="players"
-          (taSelected)="selectedPlayer($event, 2)">
+        <input [(ngModel)]="player2"
+        [typeahead]="players"
+        [typeaheadScrollable]="true"
+        [typeaheadOptionsInScrollableView]="4"
+        class="form-control">
     </div>
   </div>
   <div class="row">
