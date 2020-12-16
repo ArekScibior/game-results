@@ -20,6 +20,7 @@ export class DialogOverviewComponent implements OnInit {
 	player2 = '';
 	player1Score = '';
 	player2Score = '';
+	game = {}
 
 	onChange(res, id) {
 		if (id == 1) { this.player1Score = res } else if (id == 2) {this.player2Score = res}
@@ -43,17 +44,17 @@ export class DialogOverviewComponent implements OnInit {
 			return true;
 		}
 
-		if (data.player1 == data.player2) {
-			this.toastr.error("Wybrani gracze są tacy sami.", "")
-			return true;
-		}
-
 		if (!existPlayer1) {
 			this.toastr.error("Nie znaleziono gracza nr 1. Wybierz z listy.", "")
 			return true;
 		}
 		if (!existPlayer2) {
-			this.toastr.error("Nie znaleziono gracza nr 1. Wybierz z listy.", "")
+			this.toastr.error("Nie znaleziono gracza nr 2. Wybierz z listy.", "")
+			return true;
+		}
+		
+		if (data.player1 == data.player2) {
+			this.toastr.error("Wybrani gracze są tacy sami.", "")
 			return true;
 		}
 
@@ -78,10 +79,17 @@ export class DialogOverviewComponent implements OnInit {
 		}
 		const toValidArray = [this.data.dataScore.player1, this.data.dataScore.player2, this.data.dataScore.player1Score, this.data.dataScore.player2Score]
 		if (this.valid(this.data.dataScore)) {return}
-		this.dialogRef.close(this.data.dataScore);
+		
+		let dataToSend = {
+			dataScore: this.data.dataScore,
+			game: this.data.game
+		}
+		
+		this.dialogRef.close(dataToSend);
 	}
 
 	ngOnInit() {
+		this.game = this.data.game
 		this.players = this.data.playerList
 	}
 

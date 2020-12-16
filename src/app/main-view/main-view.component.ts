@@ -11,6 +11,7 @@ import * as  gamesJSON  from  '../../assets/games.json';
 export interface ScoreElement {
   name: string;
   position: number;
+  matches: number;
   points: number;
   scored: number;
   conceded: number;
@@ -42,7 +43,10 @@ export interface DialogData {
 let SCORES = (dataJSON as any).default;
 
 const updatePositionAndSort = function(sorted) {
-  sorted = _.sortBy(sorted, 'points').reverse()
+  sorted.sort(function (a, b) {
+      return a.points - b.points || a.scored - b.scored;
+  }).reverse();
+
   _.each(sorted, function(v, idx) {
     v.position = idx + 1
   })
@@ -85,7 +89,7 @@ export class MainViewComponent implements OnInit {
   //definicja kolumn dla tabeli z wynikami oraz init gry na fifa21
   initialGame = updatePositionAndSort(SCORES['fifa21'])
 
-  displayedColumns: string[] = ['position', 'name', 'points', 'scored', 'conceded'];
+  displayedColumns: string[] = ['position', 'name', 'matches', 'points', 'scored', 'conceded'];
   fullDataSource = JSON.parse(JSON.stringify(this.initialGame))
   dataSource = new MatTableDataSource<ScoreElement>(this.initialGame);
   namesToFilter = _.pluck(this.initialGame, 'name')
@@ -116,6 +120,15 @@ export class MainViewComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
+  updateScoreTable(scoretable) {
+    let gameDataSource = updatePositionAndSort(scoretable)
+    this.fullDataSource = JSON.parse(JSON.stringify(gameDataSource))
+    this.dataSource = new MatTableDataSource<ScoreElement>(gameDataSource); 
+    this.namesToFilter = _.pluck(gameDataSource, 'name')
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
   gameChanged(val) {
     let name = _.findWhere(this.gamesSource, {id: val}).name
     let gameDataSource = updatePositionAndSort(SCORES[name])
@@ -124,6 +137,50 @@ export class MainViewComponent implements OnInit {
     this.namesToFilter = _.pluck(gameDataSource, 'name')
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  }
+
+  addScore(score) {
+    let rawData = this.dataSource.filteredData
+
+    if (score.player1Score > score.player2Score) {
+      let winner = _.findWhere(rawData, {name: score.player1})
+      winner.matches = winner.matches + 1
+      winner.points = winner.points + 3
+      winner.scored = winner.scored + score.player1Score
+      winner.conceded = winner.conceded + score.player2Score
+
+      let looser = _.findWhere(rawData, {name: score.player2})
+      looser.matches = looser.matches + 1
+      looser.scored = looser.scored + score.player2Score
+      looser.conceded = looser.conceded + score.player1Score
+
+    } else if (score.player1Score < score.player2Score) {
+      let winner = _.findWhere(rawData, {name: score.player2})
+      winner.matches = winner.matches + 1
+      winner.points = winner.points + 3
+      winner.scored = winner.scored + score.player2Score
+      winner.conceded = winner.conceded + score.player1Score
+
+      let looser = _.findWhere(rawData, {name: score.player1})
+      looser.matches = looser.matches + 1
+      looser.scored = looser.scored + score.player1Score
+      looser.conceded = looser.conceded + score.player2Score
+    } else if (score.player1Score === score.player2Score) {
+      let player1 = _.findWhere(rawData, {name: score.player1})
+      player1.matches = player1.matches + 1
+      player1.points = player1.points + 1
+      player1.scored = player1.scored + score.player1Score
+      player1.conceded = player1.conceded + score.player2Score
+
+      let player2 = _.findWhere(rawData, {name: score.player2})
+      player2.matches = player2.matches + 1
+      player2.points = player2.points + 1
+      player2.scored = player2.scored + score.player2Score
+      player2.conceded = player2.conceded + score.player1Score
+
+    }
+    this.updateScoreTable(rawData)
+
   }
 
   openEntryModal(): void {
@@ -137,13 +194,15 @@ export class MainViewComponent implements OnInit {
       left: '35%'
     };
     dialogConfig.data = {
+      'game': _.findWhere(this.gamesSource, {id: this.selectedGame}),
       'playerList': _.pluck(PLAYERS, 'name'),
       'dataScore': {}
     }
 
+    
     const dialogRef = this.dialog.open(DialogOverviewComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(data => {
-      console.log('data', data)
+      this.addScore(data.dataScore)
     });
-}
+  }
 }

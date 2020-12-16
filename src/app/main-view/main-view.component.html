@@ -55,7 +55,13 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
           </ng-container>
-        
+          
+          <!-- Matches Column -->
+          <ng-container matColumnDef="matches">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Matches </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.matches}} </mat-cell>
+          </ng-container>
+
           <!-- Points Column -->
           <ng-container matColumnDef="points">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Points </mat-header-cell>
