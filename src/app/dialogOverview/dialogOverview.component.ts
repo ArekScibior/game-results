@@ -29,7 +29,13 @@ export class DialogOverviewComponent implements OnInit {
 
 	valid(data): any {
 		let existPlayer1 = _.contains(this.players, data.player1)
+		console.log(data.player1Score, data.player1Score == 0)
 		let existPlayer2 = _.contains(this.players, data.player2)
+
+		if (data.player1 == data.player2) {
+			console.log('Wybrani gracze są tacy sami.')
+			return true;
+		}
 		if (!existPlayer1) {
 			console.log('Błędny zawodnik numer 1')
 			return true;
@@ -39,11 +45,11 @@ export class DialogOverviewComponent implements OnInit {
 			return true;
 		}
 
-		if (data.player1Score == "") {
+		if (data.player1Score != 0 && data.player1Score == "") {
 			console.log('Brak uzupełnionego wyniku zawodnika numer 1')
 			return true;
 		}
-		if (data.player2Score == "") {
+		if (data.player1Score != 0 && data.player1Score == "") {
 			console.log('Brak uzupełnionego wyniku zawodnika numer 2')
 			return true;
 		}
