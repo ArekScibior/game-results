@@ -35,6 +35,8 @@ export interface Players {
 export interface Logos {
   id: number;
   src: string;
+  width: number;
+  height: number;
 }
 
 export interface DialogData {
@@ -73,9 +75,9 @@ let getAllData = function() {
   GAMES_TABLE = (gamesJSON as any).default;
 
   LOGO_GAMES = [
-    {id: 1, src: "../../assets/fifa21-logo-25.png"},
-    {id: 2, src: '../../assets/fifa-20-mono-logo.png'},
-    {id: 3, src: '../../assets/ufc4-logo.png'}
+    {id: 1, src: "../../assets/fifa21-logo-25.png", "width": 300, "height": 150},
+    {id: 2, src: '../../assets/fifa-20-mono-logo.png', "width": 200, "height": 130},
+    {id: 3, src: '../../assets/ufc4-logo.png', "width": 300, "height": 110}
   ];
   
   selectedGame = _.first(GAMES_TABLE).id
@@ -92,12 +94,11 @@ export class MainViewComponent implements OnInit {
   @ViewChild(MatSort, null) sort: MatSort;
  
   // initial variables
+  searchValue   = ""
   idInterval    = null
   timestamp     = moment().format('YYYY.MM.DD HH:mm:ss')
 
-  fifa21Logo    = LOGO_GAMES[0]
-  fifa20Logo    = LOGO_GAMES[1]
-  ufc4Logo      = LOGO_GAMES[2]
+  logo          = LOGO_GAMES[0]
   logosSource   = LOGO_GAMES;
 
   gamesSource   = GAMES_TABLE;
@@ -148,6 +149,7 @@ export class MainViewComponent implements OnInit {
   }
 
   gameChanged(val) {
+    this.logo = _.findWhere(this.logosSource, {id: val})
     let name = _.findWhere(this.gamesSource, {id: val}).name
     let gameDataSource = mapScoreTable(SCORES[name])
     this.fullDataSource = JSON.parse(JSON.stringify(gameDataSource))

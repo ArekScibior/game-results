@@ -16,9 +16,7 @@
       </mat-form-field>
     </div>
     <div class="col-md-4 selected-game-logo">
-      <img *ngIf="selectedGame == fifa21Logo.id" [src]="fifa21Logo.src" alt="" width="300" height="150">
-      <img *ngIf="selectedGame == fifa20Logo.id" [src]="fifa20Logo.src" alt="" width="200" height="130">
-      <img *ngIf="selectedGame == ufc4Logo.id" [src]="ufc4Logo.src" alt="" width="300" height="110">
+      <img [src]="logo.src" alt="" width="{{ logo.width }}" height="{{ logo.height }}">
     </div>
   </div>
   
@@ -27,9 +25,9 @@
       <div class="col-md-1"></div>
       <div class="col-md-2">
         <div class="input-group mb-3">
-          <input [(ngModel)]="inputValue" style='height: 43px;' type="text" class="form-control" placeholder="Filtruj graczy" aria-label="Filtruj graczy" aria-describedby="basic-addon2">
+          <input [(ngModel)]="searchValue" style='height: 43px;' type="text" class="form-control" placeholder="Filtruj graczy" aria-label="Filtruj graczy" aria-describedby="basic-addon2">
           <div class="input-group-append">
-            <button (click)="filterPlayers(inputValue)" class="btn btn-outline-secondary" type="button"><span class="material-icons">search</span></button>
+            <button (click)="filterPlayers(searchValue)" class="btn btn-outline-secondary" type="button"><span class="material-icons">search</span></button>
           </div>
         </div>
       </div>
