@@ -4,6 +4,9 @@ import { MatTableDataSource, MatPaginator, MatSort} from '@angular/material'
 import {MatDialog, MatDialogConfig} from "@angular/material";
 import { DialogOverviewComponent } from '../dialogOverview/dialogOverview.component';
 import * as moment from 'moment';
+import * as  dataJSON  from  '../../assets/data.json';
+import * as  playersJSON  from  '../../assets/players.json';
+import * as  gamesJSON  from  '../../assets/games.json';
 
 export interface ScoreElement {
   name: string;
@@ -36,47 +39,7 @@ export interface DialogData {
   scoreAway: number;
 }
 
-// SCORE_TABLE = _.chain(SCORE_TABLE).sortBy('points').reverse().each(function(el, idx) {
-//   el.position = idx + 1
-// }).value()
-
-let scores = {
-  'fifa20': 
-    [{position: 1, name: 'Hydrogen', points: 15, scored: 15, conceded: 15},
-    {position: 2, name: 'Helium', points: 9, scored: 15, conceded: 15},
-    {position: 3, name: 'Lithium', points: 9, scored: 15, conceded: 15},
-    {position: 4, name: 'Beryllium', points: 5, scored: 15, conceded: 15},
-    {position: 2, name: 'Helium', points: 9, scored: 15, conceded: 15},
-    {position: 3, name: 'Lithium', points: 9, scored: 15, conceded: 15},
-    {position: 4, name: 'Beryllium', points: 5, scored: 15, conceded: 15}],
-  'fifa21': 
-    [{position: 1, name: 'Hydrogen', points: 15, scored: 15, conceded: 15},
-    {position: 2, name: 'Helium', points: 9, scored: 15, conceded: 15},
-    {position: 3, name: 'Lithium', points: 9, scored: 15, conceded: 15},
-    {position: 4, name: 'Beryllium', points: 5, scored: 15, conceded: 15},
-    {position: 5, name: 'Boron', points: 0, scored: 15, conceded: 15},
-    {position: 6, name: 'Carbon', points: 11, scored: 15, conceded: 15},
-    {position: 7, name: 'Nitrogen', points: 23, scored: 15, conceded: 15},
-    {position: 8, name: 'Oxygen', points: 13, scored: 15, conceded: 15},
-    {position: 9, name: 'Fluorine', points: 28, scored: 15, conceded: 15},
-    {position: 10, name: 'Neon', points: 21, scored: 15, conceded: 15},
-    {position: 1, name: 'Hydrogen', points: 15, scored: 15, conceded: 15},
-    {position: 2, name: 'Helium', points: 9, scored: 15, conceded: 15},
-    {position: 3, name: 'Lithium', points: 9, scored: 15, conceded: 15},
-    {position: 4, name: 'Beryllium', points: 5, scored: 15, conceded: 15},
-    {position: 5, name: 'Boron', points: 0, scored: 15, conceded: 15},
-    {position: 6, name: 'Carbon', points: 11, scored: 15, conceded: 15},
-    {position: 7, name: 'Nitrogen', points: 23, scored: 15, conceded: 15},
-    {position: 8, name: 'Oxygen', points: 13, scored: 15, conceded: 15},
-    {position: 9, name: 'Fluorine', points: 28, scored: 15, conceded: 15},
-    {position: 10, name: 'Neon', points: 21, scored: 15, conceded: 15}],
-  'ufc4': 
-    [{position: 1, name: 'Hydrogen', points: 15, scored: 15, conceded: 15},
-    {position: 2, name: 'Helium', points: 9, scored: 15, conceded: 15},
-    {position: 3, name: 'Lithium', points: 9, scored: 15, conceded: 15},
-    {position: 4, name: 'Beryllium', points: 5, scored: 15, conceded: 15}]
-  
-}
+let SCORES = (dataJSON as any).default;
 
 const updatePositionAndSort = function(sorted) {
   sorted = _.sortBy(sorted, 'points').reverse()
@@ -86,27 +49,14 @@ const updatePositionAndSort = function(sorted) {
   return sorted
 }
 
-const PLAYERS: Players[] = [
-  {id: 1, name:'Arek Ścibior'},
-  {id: 2, name:'Michał Ścibior'},
-  {id: 3, name:'Emil Ścibior'},
-  {id: 4, name:'Kasia Cyrkler'},
-  {id: 5, name:'Karol Karczmarski'},
-  {id: 6, name:'Andrzej Ścibior'}
-];
-
-const GAMES_TABLE: GamesElement[] = [
-  {id: 1, display: 'FIFA 21', name:'fifa21'},
-  {id: 2, display: 'FIFA 20', name:'fifa20'},
-  {id: 3, display: 'UFC 4', name:'ufc4'},
-];
+const PLAYERS: Players[] = (playersJSON as any).default
+const GAMES_TABLE: GamesElement[] = (gamesJSON as any).default;
 
 const LOGO_GAMES: Logos[] = [
   {id: 1, src: "../../assets/fifa21-logo-25.png"},
   {id: 2, src: '../../assets/fifa-20-mono-logo.png'},
   {id: 3, src: '../../assets/ufc4-logo.png'}
 ];
-
 
 let selectedGame = _.first(GAMES_TABLE).id
 
@@ -133,7 +83,7 @@ export class MainViewComponent implements OnInit {
   initSelectedGameName = _.findWhere(this.gamesSource, {id: selectedGame})
 
   //definicja kolumn dla tabeli z wynikami oraz init gry na fifa21
-  initialGame = updatePositionAndSort(scores['fifa21'])
+  initialGame = updatePositionAndSort(SCORES['fifa21'])
 
   displayedColumns: string[] = ['position', 'name', 'points', 'scored', 'conceded'];
   fullDataSource = JSON.parse(JSON.stringify(this.initialGame))
@@ -168,7 +118,7 @@ export class MainViewComponent implements OnInit {
 
   gameChanged(val) {
     let name = _.findWhere(this.gamesSource, {id: val}).name
-    let gameDataSource = updatePositionAndSort(scores[name])
+    let gameDataSource = updatePositionAndSort(SCORES[name])
     this.fullDataSource = JSON.parse(JSON.stringify(gameDataSource))
     this.dataSource = new MatTableDataSource<ScoreElement>(gameDataSource); 
     this.namesToFilter = _.pluck(gameDataSource, 'name')

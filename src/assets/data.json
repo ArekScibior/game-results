@@ -1,0 +1,37 @@
+{
+    "fifa20": 
+      [{"position": 1, "name": "Jan Kowalski", "points": 15, "scored": 15, "conceded": 15},
+      {"position": 2, "name": "Henryk Binięda", "points": 9, "scored": 15, "conceded": 15},
+      {"position": 3, "name": "Janek Poczciwy", "points": 9, "scored": 15, "conceded": 15},
+      {"position": 4, "name": "Zbyszek Konopka", "points": 5, "scored": 15, "conceded": 15},
+      {"position": 2, "name": "John Wick", "points": 9, "scored": 15, "conceded": 15},
+      {"position": 3, "name": "Leo Bazyl", "points": 9, "scored": 15, "conceded": 15},
+      {"position": 4, "name": "Krystian Lapad", "points": 5, "scored": 15, "conceded": 15}],
+    "fifa21": 
+      [{"position": 1, "name": "Jan Kowalski", "points": 15, "scored": 15, "conceded": 15},
+      {"position": 2, "name": "Henryk Binięda", "points": 9, "scored": 15, "conceded": 15},
+      {"position": 3, "name": "Janek Poczciwy", "points": 9, "scored": 15, "conceded": 15},
+      {"position": 4, "name": "Zbyszek Konopka", "points": 5, "scored": 15, "conceded": 15},
+      {"position": 5, "name": "John Wick", "points": 0, "scored": 15, "conceded": 15},
+      {"position": 6, "name": "Leo Bazyl", "points": 11, "scored": 15, "conceded": 15},
+      {"position": 7, "name": "Krystian Lapad", "points": 23, "scored": 15, "conceded": 15},
+      {"position": 8, "name": "Czesiek Marzec", "points": 13, "scored": 15, "conceded": 15},
+      {"position": 9, "name": "Grzesiek Jankowski", "points": 28, "scored": 15, "conceded": 15},
+      {"position": 10, "name": "Marcin Gaca", "points": 21, "scored": 15, "conceded": 15},
+      {"position": 1, "name": "Ela Konopka", "points": 15, "scored": 15, "conceded": 15},
+      {"position": 2, "name": "Eliza Lipa", "points": 9, "scored": 15, "conceded": 15},
+      {"position": 3, "name": "Michał Adamowicz", "points": 9, "scored": 15, "conceded": 15},
+      {"position": 4, "name": "Emil Fosa", "points": 5, "scored": 15, "conceded": 15},
+      {"position": 5, "name": "Czarek Zyga", "points": 0, "scored": 15, "conceded": 15},
+      {"position": 6, "name": "Kamil Baca", "points": 11, "scored": 15, "conceded": 15},
+      {"position": 7, "name": "Karol Łabda", "points": 23, "scored": 15, "conceded": 15},
+      {"position": 8, "name": "Damian Kalan", "points": 13, "scored": 15, "conceded": 15},
+      {"position": 9, "name": "Sebastian Malan", "points": 28, "scored": 15, "conceded": 15},
+      {"position": 10, "name": "Tomek Tek", "points": 21, "scored": 15, "conceded": 15}],
+    "ufc4": 
+      [{"position": 1, "name": "Krystian Lapad", "points": 15, "scored": 15, "conceded": 15},
+      {"position": 2, "name": "Czarek Zyga", "points": 9, "scored": 15, "conceded": 15},
+      {"position": 3, "name": "Karol Łabda", "points": 9, "scored": 15, "conceded": 15},
+      {"position": 4, "name": "Leo Bazyl", "points": 5, "scored": 15, "conceded": 15}]
+    
+  }
