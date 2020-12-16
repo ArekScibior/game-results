@@ -44,7 +44,13 @@ export interface DialogData {
   scoreAway: number;
 }
 
-let SCORES = (dataJSON as any).default;
+
+//inicjalne zmienne do pobrania danych
+let selectedGame  = ""
+let SCORES        = [];
+let PLAYERS: Players[]
+let GAMES_TABLE: GamesElement[]
+let LOGO_GAMES: Logos[]
 
 const mapScoreTable = function(scoreTable) {
   scoreTable.sort(function (a, b) {
@@ -62,16 +68,20 @@ const mapScoreTable = function(scoreTable) {
   return scoreTable
 }
 
-const PLAYERS: Players[] = (playersJSON as any).default
-const GAMES_TABLE: GamesElement[] = (gamesJSON as any).default;
+let getAllData = function() {
+  SCORES = (dataJSON as any).default;
+  PLAYERS = (playersJSON as any).default
+  GAMES_TABLE = (gamesJSON as any).default;
 
-const LOGO_GAMES: Logos[] = [
-  {id: 1, src: "../../assets/fifa21-logo-25.png"},
-  {id: 2, src: '../../assets/fifa-20-mono-logo.png'},
-  {id: 3, src: '../../assets/ufc4-logo.png'}
-];
-
-let selectedGame = _.first(GAMES_TABLE).id
+  LOGO_GAMES = [
+    {id: 1, src: "../../assets/fifa21-logo-25.png"},
+    {id: 2, src: '../../assets/fifa-20-mono-logo.png'},
+    {id: 3, src: '../../assets/ufc4-logo.png'}
+  ];
+  
+  selectedGame = _.first(GAMES_TABLE).id
+}
+getAllData()
 
 @Component({
   selector: 'app-main-view',
