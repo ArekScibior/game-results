@@ -5,16 +5,16 @@ import * as moment from 'moment';
 import * as _ from 'underscore';
 
 @Component({
-	selector: 'app-dialogOverview',
-	templateUrl: './dialogOverview.component.html',
-	styleUrls: ['./dialogOverview.component.scss']
+	selector: 'app-entryResult',
+	templateUrl: './entry-result.component.html',
+	styleUrls: ['./entry-result.component.scss']
 })
-export class DialogOverviewComponent implements OnInit {
+export class EntryResultComponent implements OnInit {
 	players: [];
 	constructor(
 		public toastr: ToastrService,
 		@Inject(MAT_DIALOG_DATA) public data: any,
-		public dialogRef: MatDialogRef<DialogOverviewComponent>) { }
+		public dialogRef: MatDialogRef<EntryResultComponent>) { }
 
 	player1 = '';
 	player2 = '';
@@ -32,7 +32,6 @@ export class DialogOverviewComponent implements OnInit {
 
 	valid(data): any {
 		let existPlayer1 = _.contains(this.players, data.player1)
-		console.log(data.player1Score, data.player1Score == 0)
 		let existPlayer2 = _.contains(this.players, data.player2)
 		if (data.player1 == "") {
 			this.toastr.error("Proszę uzupełnić pole Gracz nr 1.", "")

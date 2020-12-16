@@ -42,13 +42,13 @@ import {
   MatTooltipModule,
   MatStepperModule,
 } from '@angular/material';
-import { DialogOverviewComponent } from './dialogOverview/dialogOverview.component';
+import { EntryResultComponent } from './entry-result/entry-result.component';
 
 @NgModule({
   declarations: [	
     AppComponent,
     MainViewComponent,
-    DialogOverviewComponent
+    EntryResultComponent
    ],
   imports: [
     BrowserModule,
@@ -95,6 +95,6 @@ import { DialogOverviewComponent } from './dialogOverview/dialogOverview.compone
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [DialogOverviewComponent]
+  entryComponents: [EntryResultComponent]
 })
 export class AppModule { }

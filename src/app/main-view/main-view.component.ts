@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import * as _ from 'underscore';
 import { MatTableDataSource, MatPaginator, MatSort} from '@angular/material'
 import {MatDialog, MatDialogConfig} from "@angular/material";
-import { DialogOverviewComponent } from '../dialogOverview/dialogOverview.component';
+import { EntryResultComponent } from '../entry-result/entry-result.component';
 import * as moment from 'moment';
 import * as  dataJSON  from  '../../assets/data.json';
 import * as  playersJSON  from  '../../assets/players.json';
@@ -64,7 +64,6 @@ const mapScoreTable = function(scoreTable) {
     v.winRate = parseFloat(winRate.toFixed(2)) + "%"
     
   })
-  console.log(scoreTable)
   return scoreTable
 }
 
@@ -225,7 +224,7 @@ export class MainViewComponent implements OnInit {
     }
 
     
-    const dialogRef = this.dialog.open(DialogOverviewComponent, dialogConfig);
+    const dialogRef = this.dialog.open(EntryResultComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(data => {
       this.addScore(data.dataScore)
     });
