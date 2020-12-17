@@ -7,7 +7,8 @@ import { HttpClient } from '@angular/common/http';
 export class DataproviderService {
 
   constructor(private http: HttpClient) { }
-  serverUrl = 'http://127.0.0.1:8081/?FUNCTION='; //lokalnie
+  //serverUrl = 'http://127.0.0.1:8081/?FUNCTION='; //lokalnie
+  serverUrl = 'http://' + window.location.hostname + ':8081/?FUNCTION='; //prod
 
   getScoreData = function () {
     let moduleName = 'Z_DATA_SCORE_GET'
