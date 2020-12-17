@@ -96,6 +96,7 @@ export class MainViewComponent implements OnInit {
   searchValue   = ""
   idInterval    = null
   timestamp     = moment().format('YYYY.MM.DD HH:mm:ss')
+  loading       = false;
 
   logo          = LOGO_GAMES[0]
   logosSource   = LOGO_GAMES;
@@ -121,6 +122,7 @@ export class MainViewComponent implements OnInit {
     this.dataSource = new MatTableDataSource<ScoreElement>(initialGame);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    this.loading = false
   }
 
   getData = function() {
@@ -139,6 +141,7 @@ export class MainViewComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.loading = true
     this.getData()
     this.idInterval = setInterval(() => {
       this.timestamp = moment(this.timestamp, 'YYYY.MM.DD HH:mm:ss').add(1, 's').format('YYYY.MM.DD HH:mm:ss')
@@ -212,7 +215,7 @@ export class MainViewComponent implements OnInit {
     dialogConfig.minWidth = '700px';
     dialogConfig.position = {
       top: '15%',
-      left: '35%'
+      left: '32%'
     };
     dialogConfig.data = {
       'game': _.findWhere(this.gamesSource, {id: this.selectedGame}),
@@ -224,6 +227,7 @@ export class MainViewComponent implements OnInit {
     const dialogRef = this.dialog.open(EntryResultComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
+        this.loading = true
         this.addScore(data)
       }
     });
@@ -234,10 +238,10 @@ export class MainViewComponent implements OnInit {
   
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.minWidth = '1200px';
+    dialogConfig.minWidth = '1000px';
     dialogConfig.position = {
-      top: '15%',
-      left: '20%'
+      top: '10%',
+      left: '25%'
     };
     dialogConfig.data = {
       'dataPlayer': {}
@@ -247,6 +251,7 @@ export class MainViewComponent implements OnInit {
     const dialogRef = this.dialog.open(EntryPlayerComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
+        this.loading = true
         this.dataprovider.setPlayerData(data).subscribe(response => {
           if (response.status.status_code == "S") { 
             this.toastr.success(response.status.status, "") 
