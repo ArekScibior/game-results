@@ -3,6 +3,7 @@ import * as _ from 'underscore';
 import { MatTableDataSource, MatPaginator, MatSort} from '@angular/material'
 import {MatDialog, MatDialogConfig} from "@angular/material";
 import { EntryResultComponent } from '../entry-result/entry-result.component';
+import { EntryPlayerComponent } from '../entry-player/entry-player.component';
 import * as moment from 'moment';
 import * as  dataJSON  from  '../../assets/data.json';
 import * as  playersJSON  from  '../../assets/players.json';
@@ -209,14 +210,14 @@ export class MainViewComponent implements OnInit {
 
   }
 
-  openEntryModal(): void {
+  openEntryScoreModal(): void {
     const dialogConfig = new MatDialogConfig();
 
-    dialogConfig.disableClose = false;
+    dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.minWidth = '700px';
     dialogConfig.position = {
-      'top': '15%',
+      top: '15%',
       left: '35%'
     };
     dialogConfig.data = {
@@ -228,7 +229,32 @@ export class MainViewComponent implements OnInit {
     
     const dialogRef = this.dialog.open(EntryResultComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(data => {
-      this.addScore(data.dataScore)
+      if (data) {
+        this.addScore(data.dataScore)
+      }
     });
   }
+
+  openEntryPlayerModal(): void {
+    const dialogConfig = new MatDialogConfig();
+  
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.minWidth = '1200px';
+    dialogConfig.position = {
+      top: '15%',
+      left: '20%'
+    };
+    dialogConfig.data = {
+      'dataPlayer': {}
+    }
+  
+    
+    const dialogRef = this.dialog.open(EntryPlayerComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(data => {
+      console.log('data', data)
+    });
+  }
+  
 }
+

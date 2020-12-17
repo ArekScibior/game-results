@@ -107,8 +107,8 @@
         </mat-table>
         <mat-paginator #paginator [pageSize]="8" [pageSizeOptions]="[5, 10, 25, 50]"></mat-paginator>
         <div class="col-md-12 button-add-parent">
-          <button (click)="openEntryModal()" mat-flat-button color="primary">Dodaj nowy wynik</button>
-
+          <button (click)="openEntryScoreModal()" style="margin-right:10px;" mat-flat-button color="primary">Dodaj nowy wynik</button>
+          <button (click)="openEntryPlayerModal()" style="margin-right:10px;" mat-flat-button color="primary">Dodaj nowego gracza</button>
         </div>
       </div>
       <div class="col-md-1"></div>

@@ -43,12 +43,14 @@ import {
   MatStepperModule,
 } from '@angular/material';
 import { EntryResultComponent } from './entry-result/entry-result.component';
+import { EntryPlayerComponent } from './entry-player/entry-player.component';
 
 @NgModule({
   declarations: [	
     AppComponent,
     MainViewComponent,
-    EntryResultComponent
+    EntryResultComponent,
+    EntryPlayerComponent
    ],
   imports: [
     BrowserModule,
@@ -95,6 +97,6 @@ import { EntryResultComponent } from './entry-result/entry-result.component';
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [EntryResultComponent]
+  entryComponents: [EntryResultComponent, EntryPlayerComponent]
 })
 export class AppModule { }

@@ -1,0 +1,54 @@
+<h1 style="margin-bottom: 20px;" mat-dialog-title>Dodaj nowego gracza</h1>
+<div mat-dialog-content>
+  <table class="request-table">
+    <tr>
+      <td class="col-1">
+        <div class="col-md-12">
+          <label>Imię i nazwisko:</label>
+        </div>
+      </td>
+      <td class="col-2">
+        <div class="col-md-12 input">
+          <input type="text" [(ngModel)]="name" class="form-control"/>
+        </div>
+      </td>
+      <td class="col-3"></td>
+    </tr>
+
+    <tr>
+      <td class="col-1">
+        <div class="col-md-12">
+          <label>Wiek:</label>
+        </div>
+      </td>
+      <td class="col-2">
+        <div class="col-md-12 input">
+          <input type="text" [(ngModel)]="age" class="form-control"/>
+        </div>
+      </td>
+      <td class="col-3"></td>
+    </tr>
+
+    <tr>
+      <td class="col-1">
+        <div class="col-md-12">
+          <label>Ulubiony klub (opcjonalnie):</label>
+        </div>
+      </td>
+      <td class="col-2">
+        <div class="col-md-12 input">
+          <input [(ngModel)]="favouriteClub"
+          [typeahead]="clubs"
+          [typeaheadScrollable]="true"
+          [typeaheadOptionsInScrollableView]="5"
+          class="form-control">
+        </div>
+      </td>
+      <td class="col-3"></td>
+    </tr>
+  </table>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="close()">Anuluj</button>
+  <button mat-button (click)="save()">Dodaj</button>
+</div>
