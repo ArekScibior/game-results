@@ -8,6 +8,7 @@ import { MainViewComponent } from './main-view/main-view.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
+import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr'
 import {
   MatAutocompleteModule,
@@ -53,6 +54,7 @@ import { EntryPlayerComponent } from './entry-player/entry-player.component';
     EntryPlayerComponent
    ],
   imports: [
+    HttpClientModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,

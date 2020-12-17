@@ -1,9 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import {Observable,of, from } from 'rxjs';
+import { forkJoin } from 'rxjs';
 import * as _ from 'underscore';
 import { MatTableDataSource, MatPaginator, MatSort} from '@angular/material'
 import {MatDialog, MatDialogConfig} from "@angular/material";
 import { EntryResultComponent } from '../entry-result/entry-result.component';
 import { EntryPlayerComponent } from '../entry-player/entry-player.component';
+import { DataproviderService } from '../common/dataprovider.service';
+import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
 import * as  dataJSON  from  '../../assets/data.json';
 import * as  playersJSON  from  '../../assets/players.json';
@@ -50,9 +54,6 @@ export interface DialogData {
 
 //inicjalne zmienne do pobrania danych
 let selectedGame  = ""
-let SCORES        = [];
-let PLAYERS: Players[]
-let GAMES_TABLE: GamesElement[]
 let LOGO_GAMES: Logos[]
 
 const mapScoreTable = function(scoreTable) {
@@ -62,7 +63,11 @@ const mapScoreTable = function(scoreTable) {
 
   _.each(scoreTable, function(v, idx) {
     let winRate = 0
-    winRate = ((v.wins / v.matches) * 100)
+    if (v.matches == 0) {
+      winRate = 0
+    } else {
+      winRate = ((v.wins / v.matches) * 100)
+    }
     v.position = idx + 1
     v.winRate = parseFloat(winRate.toFixed(2)) + "%"
     
@@ -70,20 +75,11 @@ const mapScoreTable = function(scoreTable) {
   return scoreTable
 }
 
-let getAllData = function() {
-  SCORES = (dataJSON as any).default;
-  PLAYERS = (playersJSON as any).default
-  GAMES_TABLE = (gamesJSON as any).default;
-
-  LOGO_GAMES = [
-    {id: 1, src: "../../assets/fifa21-logo-25.png", "width": 300, "height": 150},
-    {id: 2, src: '../../assets/fifa-20-mono-logo.png', "width": 200, "height": 130},
-    {id: 3, src: '../../assets/ufc4-logo.png', "width": 300, "height": 110}
-  ];
-  
-  selectedGame = _.first(GAMES_TABLE).id
-}
-getAllData()
+LOGO_GAMES = [
+  {id: 1, src: "../../assets/fifa21-logo-25.png", "width": 300, "height": 150},
+  {id: 2, src: '../../assets/fifa-20-mono-logo.png', "width": 200, "height": 130},
+  {id: 3, src: '../../assets/ufc4-logo.png', "width": 300, "height": 110}
+];
 
 @Component({
   selector: 'app-main-view',
@@ -93,7 +89,12 @@ getAllData()
 export class MainViewComponent implements OnInit {
   @ViewChild(MatPaginator, null) paginator: MatPaginator;
   @ViewChild(MatSort, null) sort: MatSort;
- 
+  constructor( 
+    public toastr: ToastrService,
+    public dataprovider: DataproviderService,
+    public dialog: MatDialog
+  ) { }
+
   // initial variables
   searchValue   = ""
   idInterval    = null
@@ -101,30 +102,54 @@ export class MainViewComponent implements OnInit {
 
   logo          = LOGO_GAMES[0]
   logosSource   = LOGO_GAMES;
-
-  gamesSource   = GAMES_TABLE;
+  gamesSource   = [];
   selectedGame  = selectedGame;
   initSelectedGameName = _.findWhere(this.gamesSource, {id: selectedGame})
 
   //definicja kolumn dla tabeli z wynikami oraz init gry na fifa21
-  initialGame = mapScoreTable(SCORES['fifa21'])
-
+  initialGame = {}
+  scores = [];
+  players = [];
   displayedColumns: string[] = ['position', 'name', 'matches', 'wins', 'losses', 'draws', 'winRate', 'points', 'scored', 'conceded'];
-  fullDataSource = JSON.parse(JSON.stringify(this.initialGame))
-  dataSource = new MatTableDataSource<ScoreElement>(this.initialGame);
-  namesToFilter = _.pluck(this.initialGame, 'name')
+  fullDataSource = [];
+  dataSource = new MatTableDataSource<ScoreElement>();
+  namesToFilter = []
 
-  constructor( public dialog: MatDialog) {}
+  dataLoadedCallback(data) {
+    if (data.players) {this.players = data.players}
+    let scores = data.scores
+    let initialGame = mapScoreTable(scores['fifa21'])
+    this.fullDataSource = JSON.parse(JSON.stringify(this.initialGame))
+    this.namesToFilter = _.pluck(this.initialGame, 'name')
+    this.dataSource = new MatTableDataSource<ScoreElement>(initialGame);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  getData = function() {
+    let promises = [this.dataprovider.getScoreData(), this.dataprovider.getGamesData(), this.dataprovider.getPlayersData()]
+    forkJoin(promises).subscribe(data => {
+      console.log('data', data)
+      this.scores = data[0]
+      this.gamesSource = data[1]
+      this.players = data[2]
+      this.selectedGame = _.first(this.gamesSource).id
+      let datas = {
+        scores: this.scores,
+        games: this.gamesSource
+      }
+      this.dataLoadedCallback(datas)
+    })
+  }
 
   ngOnInit() {
-    this.dataSource.paginator = this.paginator;
+    this.getData()
     this.idInterval = setInterval(() => {
       this.timestamp = moment(this.timestamp, 'YYYY.MM.DD HH:mm:ss').add(1, 's').format('YYYY.MM.DD HH:mm:ss')
     }, 1000);
   }
 
   ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
   }
 
   ngOnDestroy() {
@@ -141,6 +166,7 @@ export class MainViewComponent implements OnInit {
   }
 
   updateScoreTable(scoretable) {
+    console.log(scoretable)
     let gameDataSource = mapScoreTable(scoretable)
     this.fullDataSource = JSON.parse(JSON.stringify(gameDataSource))
     this.dataSource = new MatTableDataSource<ScoreElement>(gameDataSource); 
@@ -151,8 +177,8 @@ export class MainViewComponent implements OnInit {
 
   gameChanged(val) {
     this.logo = _.findWhere(this.logosSource, {id: val})
-    let name = _.findWhere(this.gamesSource, {id: val}).name
-    let gameDataSource = mapScoreTable(SCORES[name])
+    let name = _.findWhere(this.gamesSource, {id: val}).name 
+    let gameDataSource = mapScoreTable(this.scores[name])
     this.fullDataSource = JSON.parse(JSON.stringify(gameDataSource))
     this.dataSource = new MatTableDataSource<ScoreElement>(gameDataSource); 
     this.namesToFilter = _.pluck(gameDataSource, 'name')
@@ -222,7 +248,7 @@ export class MainViewComponent implements OnInit {
     };
     dialogConfig.data = {
       'game': _.findWhere(this.gamesSource, {id: this.selectedGame}),
-      'playerList': _.pluck(PLAYERS, 'name'),
+      'playerList': _.pluck(this.players, 'name'),
       'dataScore': {}
     }
 
@@ -252,8 +278,25 @@ export class MainViewComponent implements OnInit {
     
     const dialogRef = this.dialog.open(EntryPlayerComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(data => {
-      console.log('data', data)
-    });
+      if (data) {
+        this.dataprovider.setPlayerData(data).subscribe(response => {
+          console.log('response', response)
+          if (response.status.status_code == "S") { 
+            this.toastr.success(response.status.status, "") 
+          } else {
+            this.toastr.error(response.status.status, "")
+            return
+          }
+  
+          let data = {
+            scores: response.dataScore,
+            players: response.dataPlayers
+          }
+          this.dataLoadedCallback(data)
+          
+        });
+      }
+    });  
   }
   
 }
