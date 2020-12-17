@@ -124,33 +124,67 @@ function handleDataScoreGet(res) {
 }
 
 function handleDataScoreSet(res, param, body) {
-    var filename = "Z_DATA_SCORE_SET" + '.json';
+    var filename = "Z_DATA_SCORE_GET" + '.json';
+    var dataScore = getFileData(filename).data;
     var data = getFileData(filename);
-    if(body) {
-        var user = _.find(data.persons, function(person) {
-            return person.ES_HEADER.NAME == body.IS_LOGIN.NAME
+    var score = body.score
+    var game = body.game
+    console.log(score, game)
+    if(score) {
+        let rawData = _.find(dataScore, function(v, idx) {
+            return idx == game
         })
 
-        if(user) {
-            if (body.ACTIO === "ADD") {
-                var newBody = _.omit(body,'IS_LOGIN')
-                _.each(newBody.DATA, function(v) {
-                    user.PASSWORDS.push(v)
-                })
-            } else if (body.ACTIO === "DEL") {
-                var newBody = _.omit(body,'IS_LOGIN')
-                _.each(newBody.DATA, function(v) {
-                    var idx = _.findIndex(newBody, v)
-                    user.PASSWORDS.splice(idx, 1)
-                })
-            }
-        }
-    }
+        if (score.player1Score > score.player2Score) {
+            let winner = _.findWhere(rawData, {name: score.player1})
+            winner.matches = winner.matches + 1
+            winner.wins = winner.wins + 1
+            winner.points = winner.points + 3
+            winner.scored = winner.scored + score.player1Score
+            winner.conceded = winner.conceded + score.player2Score
 
+            let looser = _.findWhere(rawData, {name: score.player2})
+            looser.matches = looser.matches + 1
+            looser.losses = looser.losses + 1
+            looser.scored = looser.scored + score.player2Score
+            looser.conceded = looser.conceded + score.player1Score
+
+        } else if (score.player1Score < score.player2Score) {
+            let winner = _.findWhere(rawData, {name: score.player2})
+            winner.matches = winner.matches + 1
+            winner.wins = winner.wins + 1
+            winner.points = winner.points + 3
+            winner.scored = winner.scored + score.player2Score
+            winner.conceded = winner.conceded + score.player1Score
+
+            let looser = _.findWhere(rawData, {name: score.player1})
+            looser.matches = looser.matches + 1
+            looser.losses = looser.losses + 1
+            looser.scored = looser.scored + score.player1Score
+            looser.conceded = looser.conceded + score.player2Score
+        } else if (score.player1Score === score.player2Score) {
+            let player1 = _.findWhere(rawData, {name: score.player1})
+            player1.matches = player1.matches + 1
+            player1.draws = player1.draws + 1
+            player1.points = player1.points + 1
+            player1.scored = player1.scored + score.player1Score
+            player1.conceded = player1.conceded + score.player2Score
+
+            let player2 = _.findWhere(rawData, {name: score.player2})
+            player2.matches = player2.matches + 1
+            player2.draws = player2.draws + 1
+            player2.points = player2.points + 1
+            player2.scored = player2.scored + score.player2Score
+            player2.conceded = player2.conceded + score.player1Score
+        }
+        var dataScoreOmited = _.omit(dataScore,[game])
+        dataScoreOmited[game] = rawData
+        data.data = dataScoreOmited
+    }
     
     function callback(isOk){
-        if (isOk) writeResponse(res, {ET_RETURN:{MSGTY:"S",MSGTX: "Successful save data."}});    
-        else writeResponse(res, {ET_RETURN:{MSGTY:"E",MSGTX: "Cannot save data."}});    
+        if (isOk) writeResponse(res, {status:{status_code:"S",status: "Poprawnie dodano wynik."}, dataScore: data.data});    
+        else writeResponse(res, {status:{status_code:"E",status: "Niestety nie udało się dodać wyniku."}});    
     }
     saveFile(data,filename,callback);
 }

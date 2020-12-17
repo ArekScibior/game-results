@@ -184,54 +184,24 @@ export class MainViewComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  addScore(score) {
-    let rawData = this.dataSource.filteredData
-
-    if (score.player1Score > score.player2Score) {
-      let winner = _.findWhere(rawData, {name: score.player1})
-      winner.matches = winner.matches + 1
-      winner.wins = winner.wins + 1
-      winner.points = winner.points + 3
-      winner.scored = winner.scored + score.player1Score
-      winner.conceded = winner.conceded + score.player2Score
-
-      let looser = _.findWhere(rawData, {name: score.player2})
-      looser.matches = looser.matches + 1
-      looser.losses = looser.losses + 1
-      looser.scored = looser.scored + score.player2Score
-      looser.conceded = looser.conceded + score.player1Score
-
-    } else if (score.player1Score < score.player2Score) {
-      let winner = _.findWhere(rawData, {name: score.player2})
-      winner.matches = winner.matches + 1
-      winner.wins = winner.wins + 1
-      winner.points = winner.points + 3
-      winner.scored = winner.scored + score.player2Score
-      winner.conceded = winner.conceded + score.player1Score
-
-      let looser = _.findWhere(rawData, {name: score.player1})
-      looser.matches = looser.matches + 1
-      looser.losses = looser.losses + 1
-      looser.scored = looser.scored + score.player1Score
-      looser.conceded = looser.conceded + score.player2Score
-    } else if (score.player1Score === score.player2Score) {
-      let player1 = _.findWhere(rawData, {name: score.player1})
-      player1.matches = player1.matches + 1
-      player1.draws = player1.draws + 1
-      player1.points = player1.points + 1
-      player1.scored = player1.scored + score.player1Score
-      player1.conceded = player1.conceded + score.player2Score
-
-      let player2 = _.findWhere(rawData, {name: score.player2})
-      player2.matches = player2.matches + 1
-      player2.draws = player2.draws + 1
-      player2.points = player2.points + 1
-      player2.scored = player2.scored + score.player2Score
-      player2.conceded = player2.conceded + score.player1Score
-
+  addScore(data) {
+    let payload = {
+      score: data.dataScore,
+      game: data.game.name
     }
-    this.updateScoreTable(rawData)
+    this.dataprovider.setScoreData(payload).subscribe(response => {
+      if (response.status.status_code == "S") { 
+        this.toastr.success(response.status.status, "") 
+      } else {
+        this.toastr.error(response.status.status, "")
+        return
+      }
 
+      let data = {
+        scores: response.dataScore
+      }
+      this.dataLoadedCallback(data)
+    });
   }
 
   openEntryScoreModal(): void {
@@ -254,7 +224,7 @@ export class MainViewComponent implements OnInit {
     const dialogRef = this.dialog.open(EntryResultComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
-        this.addScore(data.dataScore)
+        this.addScore(data)
       }
     });
   }
