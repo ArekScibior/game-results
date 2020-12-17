@@ -211,10 +211,9 @@ export class MainViewComponent implements OnInit {
 
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.minWidth = '700px';
+    dialogConfig.width = '700px';
     dialogConfig.position = {
-      top: '15%',
-      left: '32%'
+      top: "5%"
     };
     dialogConfig.data = {
       'game': _.findWhere(this.gamesSource, {id: this.selectedGame}),
@@ -237,11 +236,10 @@ export class MainViewComponent implements OnInit {
   
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.minWidth = '1000px';
+    dialogConfig.width = '1000px';
     dialogConfig.position = {
-      top: '10%',
-      left: '25%'
-    };
+      top: "5%"
+    }
     dialogConfig.data = {
       'dataPlayer': {}
     }
