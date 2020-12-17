@@ -202,6 +202,13 @@ function handleDataPlayersSet(res, param, body) {
     var player = body.dataPlayer
     
     if (player) {
+        var exist = _.find(dataPlayers, function(v) {
+            return v.name == player.name && v.age == player.age
+        })
+        if (exist) {
+            writeResponse(res, {status:{status_code:"E",status: "Wpisany gracz istnieje już w systemie."}}); 
+            return
+        }
         playerMapped = {
             id: dataPlayers.length + 1,
             name: player.name,

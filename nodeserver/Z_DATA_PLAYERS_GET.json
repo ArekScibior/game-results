@@ -1,1 +1,136 @@
-{"status":[{"status_code":"200","status_name":"Pomyślnie odczytane dane."}],"data":[{"id":1,"name":"Jan Kowalski","age":"24","favouriteClub":"FC Barcelona"},{"id":2,"name":"Henryk Binięda","age":"24","favouriteClub":"FC Barcelona"},{"id":3,"name":"Janek Poczciwy","age":"24","favouriteClub":"FC Barcelona"},{"id":4,"name":"Zbyszek Konopka","age":"24","favouriteClub":"FC Barcelona"},{"id":5,"name":"John Wick","age":"24","favouriteClub":"FC Barcelona"},{"id":6,"name":"Leo Bazyl","age":"24","favouriteClub":"FC Barcelona"},{"id":7,"name":"Krystian Lapad","age":"24","favouriteClub":"FC Barcelona"},{"id":8,"name":"Czesiek Marzec","age":"24","favouriteClub":"FC Barcelona"},{"id":9,"name":"Grzesiek Jankowski","age":"24","favouriteClub":"FC Barcelona"},{"id":10,"name":"Marcin Gaca","age":"24","favouriteClub":"FC Barcelona"},{"id":11,"name":"Ela Konopka","age":"24","favouriteClub":"FC Barcelona"},{"id":12,"name":"Eliza Lipa","age":"24","favouriteClub":"FC Barcelona"},{"id":13,"name":"Michał Adamowicz","age":"24","favouriteClub":"FC Barcelona"},{"id":14,"name":"Emil Fosa","age":"24","favouriteClub":"FC Barcelona"},{"id":15,"name":"Czarek Zyga","age":"24","favouriteClub":"FC Barcelona"},{"id":16,"name":"Kamil Baca","age":"24","favouriteClub":"FC Barcelona"},{"id":17,"name":"Karol Łabda","age":"24","favouriteClub":"FC Barcelona"},{"id":18,"name":"Damian Kalan","age":"24","favouriteClub":"FC Barcelona"},{"id":19,"name":"Sebastian Malan","age":"24","favouriteClub":"FC Barcelona"},{"id":20,"name":"Tomek Tek","age":"24","favouriteClub":"FC Barcelona"},{"id":21,"name":"Arek Ścibior","age":"24","favouriteClub":""}]}
+{
+    "status": [
+        {
+            "status_code": "200",
+            "status_name": "Pomyślnie odczytane dane."
+        }
+    ],
+    "data": [
+        {
+            "id": 1,
+            "name": "Jan Kowalski",
+            "age": "24",
+            "favouriteClub": "FC Barcelona"
+        },
+        {
+            "id": 2,
+            "name": "Henryk Binięda",
+            "age": "24",
+            "favouriteClub": "FC Barcelona"
+        },
+        {
+            "id": 3,
+            "name": "Janek Poczciwy",
+            "age": "24",
+            "favouriteClub": "FC Barcelona"
+        },
+        {
+            "id": 4,
+            "name": "Zbyszek Konopka",
+            "age": "24",
+            "favouriteClub": "FC Barcelona"
+        },
+        {
+            "id": 5,
+            "name": "John Wick",
+            "age": "24",
+            "favouriteClub": "FC Barcelona"
+        },
+        {
+            "id": 6,
+            "name": "Leo Bazyl",
+            "age": "24",
+            "favouriteClub": "FC Barcelona"
+        },
+        {
+            "id": 7,
+            "name": "Krystian Lapad",
+            "age": "24",
+            "favouriteClub": "FC Barcelona"
+        },
+        {
+            "id": 8,
+            "name": "Czesiek Marzec",
+            "age": "24",
+            "favouriteClub": "FC Barcelona"
+        },
+        {
+            "id": 9,
+            "name": "Grzesiek Jankowski",
+            "age": "24",
+            "favouriteClub": "FC Barcelona"
+        },
+        {
+            "id": 10,
+            "name": "Marcin Gaca",
+            "age": "24",
+            "favouriteClub": "FC Barcelona"
+        },
+        {
+            "id": 11,
+            "name": "Ela Konopka",
+            "age": "24",
+            "favouriteClub": "FC Barcelona"
+        },
+        {
+            "id": 12,
+            "name": "Eliza Lipa",
+            "age": "24",
+            "favouriteClub": "FC Barcelona"
+        },
+        {
+            "id": 13,
+            "name": "Michał Adamowicz",
+            "age": "24",
+            "favouriteClub": "FC Barcelona"
+        },
+        {
+            "id": 14,
+            "name": "Emil Fosa",
+            "age": "24",
+            "favouriteClub": "FC Barcelona"
+        },
+        {
+            "id": 15,
+            "name": "Czarek Zyga",
+            "age": "24",
+            "favouriteClub": "FC Barcelona"
+        },
+        {
+            "id": 16,
+            "name": "Kamil Baca",
+            "age": "24",
+            "favouriteClub": "FC Barcelona"
+        },
+        {
+            "id": 17,
+            "name": "Karol Łabda",
+            "age": "24",
+            "favouriteClub": "FC Barcelona"
+        },
+        {
+            "id": 18,
+            "name": "Damian Kalan",
+            "age": "24",
+            "favouriteClub": "FC Barcelona"
+        },
+        {
+            "id": 19,
+            "name": "Sebastian Malan",
+            "age": "24",
+            "favouriteClub": "FC Barcelona"
+        },
+        {
+            "id": 20,
+            "name": "Tomek Tek",
+            "age": "24",
+            "favouriteClub": "FC Barcelona"
+        },
+        {
+            "id": 22,
+            "name": "Arek Ścibior",
+            "age": "21",
+            "favouriteClub": "Liverpool FC"
+        }
+    ]
+}
