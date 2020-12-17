@@ -9,9 +9,6 @@ import { EntryPlayerComponent } from '../entry-player/entry-player.component';
 import { DataproviderService } from '../common/dataprovider.service';
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
-import * as  dataJSON  from  '../../assets/data.json';
-import * as  playersJSON  from  '../../assets/players.json';
-import * as  gamesJSON  from  '../../assets/games.json';
 
 export interface ScoreElement {
   name: string;
@@ -129,7 +126,6 @@ export class MainViewComponent implements OnInit {
   getData = function() {
     let promises = [this.dataprovider.getScoreData(), this.dataprovider.getGamesData(), this.dataprovider.getPlayersData()]
     forkJoin(promises).subscribe(data => {
-      console.log('data', data)
       this.scores = data[0]
       this.gamesSource = data[1]
       this.players = data[2]
@@ -159,6 +155,9 @@ export class MainViewComponent implements OnInit {
   }
 
   filterPlayers(value) {
+    if (_.isEmpty(this.fullDataSource)) {
+      this.fullDataSource = JSON.parse(JSON.stringify(this.dataSource.filteredData))
+    }
     let filtered = _.filter(this.fullDataSource, function(v) { return v.name.toLowerCase().indexOf(value.toLowerCase()) != -1})
     this.dataSource = new MatTableDataSource<ScoreElement>(filtered);
     this.dataSource.paginator = this.paginator;
@@ -166,7 +165,6 @@ export class MainViewComponent implements OnInit {
   }
 
   updateScoreTable(scoretable) {
-    console.log(scoretable)
     let gameDataSource = mapScoreTable(scoretable)
     this.fullDataSource = JSON.parse(JSON.stringify(gameDataSource))
     this.dataSource = new MatTableDataSource<ScoreElement>(gameDataSource); 
@@ -280,7 +278,6 @@ export class MainViewComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
         this.dataprovider.setPlayerData(data).subscribe(response => {
-          console.log('response', response)
           if (response.status.status_code == "S") { 
             this.toastr.success(response.status.status, "") 
           } else {
