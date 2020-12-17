@@ -9,16 +9,11 @@
       "id": 2,
       "display": "FIFA 20",
       "name": "fifa20"
-    },
-    {
-      "id": 3,
-      "display": "UFC 4",
-      "name": "ufc4"
     }
   ],
   "status": [
     {
-      "status_code": "200",
+      "status_code": "S",
       "status_name": "Pomyślnie odczytane dane."
     }
   ]
