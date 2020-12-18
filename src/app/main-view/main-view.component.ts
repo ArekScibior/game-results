@@ -1,5 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import {Observable,of, from } from 'rxjs';
+import { Component, OnInit, ViewChild, Inject, HostListener } from '@angular/core';
 import { forkJoin } from 'rxjs';
 import * as _ from 'underscore';
 import { MatTableDataSource, MatPaginator, MatSort} from '@angular/material'
@@ -7,6 +6,7 @@ import {MatDialog, MatDialogConfig} from "@angular/material";
 import { EntryResultComponent } from '../entry-result/entry-result.component';
 import { EntryPlayerComponent } from '../entry-player/entry-player.component';
 import { DataproviderService } from '../common/dataprovider.service';
+import { ConfirmModalComponent } from '../common/confirm-modal/confirm-modal.component';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
@@ -84,29 +84,53 @@ LOGO_GAMES = [
   styleUrls: ['./main-view.component.scss']
 })
 export class MainViewComponent implements OnInit {
+  //dla wtajemniczonych
+  cheatIndex = 0;
+  cheat = [105, 100, 100, 113, 100];
+  timeoutPromise
+  bodyKeypress = function (event) {
+    this.timeoutPromise = setTimeout (() => { _.identity, 0 });
+    if (event.which === this.cheat[this.cheatIndex]) {
+      clearTimeout(this.timeoutPromise);
+      this.timeoutPromise = setTimeout (() => { this.cheatIndex = 0;}, 3000);
+      this.cheatIndex = this.cheatIndex + 1;
+      if (this.cheatIndex === this.cheat.length) {
+        this.invisible = true;
+      }
+    } else {
+      console.log('here')
+      clearTimeout(this.timeoutPromise);
+      this.cheatIndex = 0;
+    }
+  }
+
   @ViewChild(MatPaginator, null) paginator: MatPaginator;
   @ViewChild(MatSort, null) sort: MatSort;
-  constructor( 
+  @HostListener('document:keypress', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    this.bodyKeypress(event)
+  }
+  constructor(
     breakpointObserver: BreakpointObserver,
     public toastr: ToastrService,
     public dataprovider: DataproviderService,
     public dialog: MatDialog
-  ) {
-    breakpointObserver.observe([
-      Breakpoints.HandsetLandscape,
-      Breakpoints.HandsetPortrait
-    ]).subscribe(result => {
-      if (result.matches) {
-        this.displayedColumns = ['position', 'name', 'points'];
-      }
-    });
-  }
-
+    ) {
+      breakpointObserver.observe([
+        Breakpoints.HandsetLandscape,
+        Breakpoints.HandsetPortrait
+      ]).subscribe(result => {
+        if (result.matches) {
+          this.displayedColumns = ['position', 'name', 'points'];
+        }
+      });
+    }
   // initial variables
   searchValue   = ""
   idInterval    = null
   timestamp     = moment().format('YYYY.MM.DD HH:mm:ss')
   loading       = false;
+  invisible     = false;
 
   logo          = LOGO_GAMES[0]
   logosSource   = LOGO_GAMES;
@@ -122,7 +146,7 @@ export class MainViewComponent implements OnInit {
   fullDataSource = [];
   dataSource = new MatTableDataSource<ScoreElement>();
   namesToFilter = []
-
+  
   dataLoadedCallback(data) {
     if (data.players) {this.players = data.players}
     let scores = data.scores
@@ -277,6 +301,31 @@ export class MainViewComponent implements OnInit {
         });
       }
     });  
+  }
+
+  openConfirmModal(): void {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.minWidth = '700px';
+		dialogConfig.maxHeight = '200px';
+    dialogConfig.position = {
+      top: "5%"
+    };
+    dialogConfig.data = {
+      'game': _.findWhere(this.gamesSource, {id: this.selectedGame}),
+      'messsage': "Czy napewno chcesz usunąć wszystkie dane? Zostaną one bezpowrotnie usunięte.",
+      'title': "Potwierdzenie usunięcia."
+    }
+
+    
+    const dialogRef = this.dialog.open(ConfirmModalComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(data => {
+      if (data) {
+        console.log('here service remove')
+      }
+    });
   }
   
 }

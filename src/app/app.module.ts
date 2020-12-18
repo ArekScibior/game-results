@@ -45,13 +45,15 @@ import {
 } from '@angular/material';
 import { EntryResultComponent } from './entry-result/entry-result.component';
 import { EntryPlayerComponent } from './entry-player/entry-player.component';
+import { ConfirmModalComponent } from './common/confirm-modal/confirm-modal.component';
 
 @NgModule({
   declarations: [	
     AppComponent,
     MainViewComponent,
     EntryResultComponent,
-    EntryPlayerComponent
+    EntryPlayerComponent,
+    ConfirmModalComponent
    ],
   imports: [
     HttpClientModule,
@@ -99,6 +101,6 @@ import { EntryPlayerComponent } from './entry-player/entry-player.component';
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [EntryResultComponent, EntryPlayerComponent]
+  entryComponents: [EntryResultComponent, EntryPlayerComponent, ConfirmModalComponent]
 })
 export class AppModule { }

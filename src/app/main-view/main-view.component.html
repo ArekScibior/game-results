@@ -111,6 +111,8 @@
         <div class="col-md-12 button-add-parent">
           <button (click)="openEntryScoreModal()" style="margin-right:10px;" mat-flat-button color="primary">Dodaj nowy wynik</button>
           <button (click)="openEntryPlayerModal()" style="margin-right:10px;" mat-flat-button color="primary">Dodaj nowego gracza</button>
+          <button *ngIf="invisible" (click)="openConfirmModal()" class="danger-btn" style="margin-right:10px;" mat-raised-button color="warn">Usuń wszystkie dane</button>
+
         </div>
       </div>
       <div class="col-md-1"></div>
