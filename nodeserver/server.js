@@ -117,6 +117,23 @@ var server = function (req, response) {
 http.createServer(server).listen(port);
 console.log('Node Server running on ', port);
 
+function handleDeleteScore(res, param, body) {
+    var filename = "Z_DATA_SCORE_GET" + '.json';
+    var dataScore = getFileData(filename).data;
+    var data = getFileData(filename);
+    var game = body.game.name
+    var dataScoreOmited = _.omit(dataScore,[game])
+    dataScoreOmited[game] = []
+    data.data = dataScoreOmited
+
+    function callback(isOk){
+        if (isOk) writeResponse(res, {status:{status_code:"S",status: "Poprawnie usunięto dane dla wybranej gry."}, dataScore: data.data});    
+        else writeResponse(res, {status:{status_code:"E",status: "Niestety nie udało się usunąć danych."}});    
+    }
+    saveFile(data,filename,callback);
+}
+
+
 function handleDataScoreGet(res) {
     var filename = "Z_DATA_SCORE_GET" + '.json';
     var data = getFileData(filename).data;
@@ -134,48 +151,112 @@ function handleDataScoreSet(res, param, body) {
         let rawData = _.find(dataScore, function(v, idx) {
             return idx == game
         })
+        let clearPlayer1 = {
+            "conceded": 0,
+            "draws": 0,
+            "losses": 0,
+            "matches": 0,
+            "name": score.player1,
+            "points": 0,
+            "position": 0,
+            "scored": 0,
+            "wins": 0
+        }
+        let clearPlayer2 = {
+            "conceded": 0,
+            "draws": 0,
+            "losses": 0,
+            "matches": 0,
+            "name": score.player2,
+            "points": 0,
+            "position": 0,
+            "scored": 0,
+            "wins": 0
+        }
 
         if (score.player1Score > score.player2Score) {
-            let winner = _.findWhere(rawData, {name: score.player1})
+            let winner = {}
+            if (_.isEmpty(rawData)) { 
+                winner = clearPlayer1 
+            } else {
+                if (_.isEmpty(_.findWhere(rawData, {name: score.player1}))) {  winner = clearPlayer1  } else { winner = _.findWhere(rawData, {name: score.player1}) }
+            }
+
             winner.matches = winner.matches + 1
             winner.wins = winner.wins + 1
             winner.points = winner.points + 3
             winner.scored = winner.scored + score.player1Score
             winner.conceded = winner.conceded + score.player2Score
 
-            let looser = _.findWhere(rawData, {name: score.player2})
+            let looser = {}
+            if (_.isEmpty(rawData)) { 
+                looser = clearPlayer2 
+            } else {
+                if (_.isEmpty(_.findWhere(rawData, {name: score.player2}))) {  looser = clearPlayer2  } else { looser = _.findWhere(rawData, {name: score.player2}) }
+            }
             looser.matches = looser.matches + 1
             looser.losses = looser.losses + 1
             looser.scored = looser.scored + score.player2Score
             looser.conceded = looser.conceded + score.player1Score
 
+            if (_.isEmpty(_.findWhere(rawData, {name: score.player1}))) { rawData.push(winner)}
+            if (_.isEmpty(_.findWhere(rawData, {name: score.player2}))) { rawData.push(looser)}
+
         } else if (score.player1Score < score.player2Score) {
-            let winner = _.findWhere(rawData, {name: score.player2})
+            let winner = {}
+            if (_.isEmpty(rawData)) { 
+                winner = clearPlayer2 
+            } else {
+                if (_.isEmpty(_.findWhere(rawData, {name: score.player2}))) {  winner = clearPlayer2  } else { winner = _.findWhere(rawData, {name: score.player2}) }
+            }
+
             winner.matches = winner.matches + 1
             winner.wins = winner.wins + 1
             winner.points = winner.points + 3
             winner.scored = winner.scored + score.player2Score
             winner.conceded = winner.conceded + score.player1Score
 
-            let looser = _.findWhere(rawData, {name: score.player1})
+            let looser = {}
+            if (_.isEmpty(rawData)) { 
+                looser = clearPlayer1 
+            } else {
+                if (_.isEmpty(_.findWhere(rawData, {name: score.player1}))) {  looser = clearPlayer1  } else { looser = _.findWhere(rawData, {name: score.player1}) }
+            }
             looser.matches = looser.matches + 1
             looser.losses = looser.losses + 1
             looser.scored = looser.scored + score.player1Score
             looser.conceded = looser.conceded + score.player2Score
+
+            if (_.isEmpty(_.findWhere(rawData, {name: score.player2}))) { rawData.push(winner)}
+            if (_.isEmpty(_.findWhere(rawData, {name: score.player1}))) { rawData.push(looser)}
+
         } else if (score.player1Score === score.player2Score) {
-            let player1 = _.findWhere(rawData, {name: score.player1})
+            let player1 = {}
+            if (_.isEmpty(rawData)) { 
+                player1 = clearPlayer1 
+            } else {
+                if (_.isEmpty(_.findWhere(rawData, {name: score.player1}))) {  player1 = clearPlayer1  } else { player1 = _.findWhere(rawData, {name: score.player1}) }
+            }
             player1.matches = player1.matches + 1
             player1.draws = player1.draws + 1
             player1.points = player1.points + 1
             player1.scored = player1.scored + score.player1Score
             player1.conceded = player1.conceded + score.player2Score
 
-            let player2 = _.findWhere(rawData, {name: score.player2})
+            let player2 = {}
+            if (_.isEmpty(rawData)) { 
+                player2 = clearPlayer2
+            } else {
+                if (_.isEmpty(_.findWhere(rawData, {name: score.player2}))) {  player2 = clearPlayer2  } else { player2 = _.findWhere(rawData, {name: score.player2}) }
+            }
             player2.matches = player2.matches + 1
             player2.draws = player2.draws + 1
             player2.points = player2.points + 1
             player2.scored = player2.scored + score.player2Score
             player2.conceded = player2.conceded + score.player1Score
+
+            if (_.isEmpty(_.findWhere(rawData, {name: score.player1}))) { rawData.push(player1)}
+            if (_.isEmpty(_.findWhere(rawData, {name: score.player2}))) { rawData.push(player2)}
         }
         var dataScoreOmited = _.omit(dataScore,[game])
         dataScoreOmited[game] = rawData
@@ -269,5 +350,6 @@ var handlers = {
     Z_DATA_SCORE_SET:handleDataScoreSet,
     Z_DATA_PLAYERS_GET:handleDataPlayersGet,
     Z_DATA_PLAYERS_SET:handleDataPlayersSet,
-    Z_DATA_GAMES_GET:handleDataGamesGet
+    Z_DATA_GAMES_GET:handleDataGamesGet,
+    Z_DELETE_SCORE:handleDeleteScore
 };

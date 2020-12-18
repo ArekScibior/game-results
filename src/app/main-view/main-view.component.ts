@@ -149,8 +149,8 @@ export class MainViewComponent implements OnInit {
   
   dataLoadedCallback(data) {
     if (data.players) {this.players = data.players}
-    let scores = data.scores
-    let initialGame = mapScoreTable(scores['fifa21'])
+    this.scores = data.scores
+    let initialGame = mapScoreTable(this.scores['fifa21'])
     this.fullDataSource = JSON.parse(JSON.stringify(this.initialGame))
     this.namesToFilter = _.pluck(this.initialGame, 'name')
     this.dataSource = new MatTableDataSource<ScoreElement>(initialGame);
@@ -322,8 +322,14 @@ export class MainViewComponent implements OnInit {
     
     const dialogRef = this.dialog.open(ConfirmModalComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(data => {
+      this.loading = true;
       if (data) {
-        console.log('here service remove')
+        this.dataprovider.deleteData({game: _.findWhere(this.gamesSource, {id: this.selectedGame})}).subscribe(response => {
+          let data = {
+            scores: response.dataScore
+          }
+          this.dataLoadedCallback(data)
+        });
       }
     });
   }

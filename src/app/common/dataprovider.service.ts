@@ -39,5 +39,11 @@ export class DataproviderService {
     let url = this.serverUrl + moduleName;
     return this.http.post(url, {});
   }
+
+  deleteData = function (payload) {
+    let moduleName = 'Z_DELETE_SCORE'
+    let url = this.serverUrl + moduleName;
+    return this.http.post(url, payload);
+  }
   
 }
