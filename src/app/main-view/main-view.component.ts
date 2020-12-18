@@ -325,6 +325,13 @@ export class MainViewComponent implements OnInit {
       this.loading = true;
       if (data) {
         this.dataprovider.deleteData({game: _.findWhere(this.gamesSource, {id: this.selectedGame})}).subscribe(response => {
+          if (response.status.status_code == "S") { 
+            this.toastr.success(response.status.status, "") 
+          } else {
+            this.toastr.error(response.status.status, "")
+            return
+          }
+          
           let data = {
             scores: response.dataScore
           }
