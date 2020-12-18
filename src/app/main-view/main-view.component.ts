@@ -7,6 +7,7 @@ import {MatDialog, MatDialogConfig} from "@angular/material";
 import { EntryResultComponent } from '../entry-result/entry-result.component';
 import { EntryPlayerComponent } from '../entry-player/entry-player.component';
 import { DataproviderService } from '../common/dataprovider.service';
+import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
 
@@ -86,10 +87,20 @@ export class MainViewComponent implements OnInit {
   @ViewChild(MatPaginator, null) paginator: MatPaginator;
   @ViewChild(MatSort, null) sort: MatSort;
   constructor( 
+    breakpointObserver: BreakpointObserver,
     public toastr: ToastrService,
     public dataprovider: DataproviderService,
     public dialog: MatDialog
-  ) { }
+  ) {
+    breakpointObserver.observe([
+      Breakpoints.HandsetLandscape,
+      Breakpoints.HandsetPortrait
+    ]).subscribe(result => {
+      if (result.matches) {
+        this.displayedColumns = ['position', 'name', 'points'];
+      }
+    });
+  }
 
   // initial variables
   searchValue   = ""
