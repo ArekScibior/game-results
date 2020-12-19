@@ -322,8 +322,8 @@ export class MainViewComponent implements OnInit {
     
     const dialogRef = this.dialog.open(ConfirmModalComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(data => {
-      this.loading = true;
       if (data) {
+        this.loading = true;
         this.dataprovider.deleteData({game: _.findWhere(this.gamesSource, {id: this.selectedGame})}).subscribe(response => {
           if (response.status.status_code == "S") { 
             this.toastr.success(response.status.status, "") 
