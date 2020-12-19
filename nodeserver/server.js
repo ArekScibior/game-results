@@ -1,9 +1,9 @@
 var http = require('http');
 var fs = require('fs');
 var _ = require('underscore');
+var moment = require('moment')
 var url = require('url');
 var port = 8081;
-
 var convertToDate = function (date, time) {
     var date = date;
     var time = time;
@@ -263,9 +263,33 @@ function handleDataScoreSet(res, param, body) {
         data.data = dataScoreOmited
     }
     
+    updateMatches = function() {
+        var filename = "Z_DATA_MATCHES_GET" + '.json';
+        var dataMatches = getFileData(filename)
+        var matches = getFileData(filename).data[game];
+        var object = {
+            date: moment().format('YYYY.MM.DD'),
+            player1: score.player1,
+            player2: score.player2,
+            player1Score: score.player1Score,
+            player2Score: score.player2Score
+        }
+        matches.push(object)
+        var dataMatchesOmited = _.omit(getFileData(filename).data,[game])
+        dataMatchesOmited[game] = matches
+        dataMatches.data = dataMatchesOmited
+        console.log('newFile',dataMatches)
+        saveFile(dataMatches,filename);
+        return dataMatches
+    }
+
     function callback(isOk){
-        if (isOk) writeResponse(res, {status:{status_code:"S",status: "Poprawnie dodano wynik."}, dataScore: data.data});    
-        else writeResponse(res, {status:{status_code:"E",status: "Niestety nie udało się dodać wyniku."}});    
+        if (isOk) {
+            updateMatches();
+            writeResponse(res, {status:{status_code:"S",status: "Poprawnie dodano wynik."}, dataScore: data.data});
+        } else {
+            writeResponse(res, {status:{status_code:"E",status: "Niestety nie udało się dodać wyniku."}});       
+        }
     }
     saveFile(data,filename,callback);
 }

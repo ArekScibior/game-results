@@ -1,0 +1,11 @@
+{
+    "status": [
+        {
+            "status_code": "200",
+            "status_name": "Pomyślnie odczytane dane."
+        }
+    ],
+    "data": {
+        "fifa21": []
+    }
+}
