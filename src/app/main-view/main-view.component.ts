@@ -5,6 +5,7 @@ import { MatTableDataSource, MatPaginator, MatSort} from '@angular/material'
 import {MatDialog, MatDialogConfig} from "@angular/material";
 import { EntryResultComponent } from '../entry-result/entry-result.component';
 import { EntryPlayerComponent } from '../entry-player/entry-player.component';
+import { H2HComponent } from '../h2h/h2h.component';
 import { DataproviderService } from '../common/dataprovider.service';
 import { ConfirmModalComponent } from '../common/confirm-modal/confirm-modal.component';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
@@ -98,7 +99,6 @@ export class MainViewComponent implements OnInit {
         this.invisible = true;
       }
     } else {
-      console.log('here')
       clearTimeout(this.timeoutPromise);
       this.cheatIndex = 0;
     }
@@ -191,13 +191,6 @@ export class MainViewComponent implements OnInit {
     }
   }
 
-  //temporary getting matches
-  getMatches() {
-    this.dataprovider.getMatches({player1: "Arek Ścibior", player2: "Michał Ścibior", game: 'fifa21'}).subscribe(response => {
-      console.log('response', response)
-    });
-  }
-
   filterPlayers(value) {
     if (_.isEmpty(this.fullDataSource)) {
       this.fullDataSource = JSON.parse(JSON.stringify(this.dataSource.filteredData))
@@ -286,7 +279,6 @@ export class MainViewComponent implements OnInit {
       'dataPlayer': {}
     }
   
-    
     const dialogRef = this.dialog.open(EntryPlayerComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
@@ -306,6 +298,29 @@ export class MainViewComponent implements OnInit {
           this.dataLoadedCallback(data)
           
         });
+      }
+    });  
+  }
+
+  openH2HModal(): void {
+    const dialogConfig = new MatDialogConfig();
+  
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '1000px';
+    dialogConfig.position = {
+      top: "5%"
+    }
+    dialogConfig.data = {
+      'game': _.findWhere(this.gamesSource, {id: this.selectedGame}),
+      'playerList': _.pluck(this.players, 'name'),
+    }
+  
+    
+    const dialogRef = this.dialog.open(H2HComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(data => {
+      if (data) {
+        
       }
     });  
   }

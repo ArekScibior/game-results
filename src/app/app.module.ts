@@ -45,6 +45,7 @@ import {
 } from '@angular/material';
 import { EntryResultComponent } from './entry-result/entry-result.component';
 import { EntryPlayerComponent } from './entry-player/entry-player.component';
+import { H2HComponent } from './h2h/h2h.component';
 import { ConfirmModalComponent } from './common/confirm-modal/confirm-modal.component';
 
 @NgModule({
@@ -53,7 +54,8 @@ import { ConfirmModalComponent } from './common/confirm-modal/confirm-modal.comp
     MainViewComponent,
     EntryResultComponent,
     EntryPlayerComponent,
-    ConfirmModalComponent
+    ConfirmModalComponent,
+    H2HComponent
    ],
   imports: [
     HttpClientModule,
@@ -101,6 +103,6 @@ import { ConfirmModalComponent } from './common/confirm-modal/confirm-modal.comp
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [EntryResultComponent, EntryPlayerComponent, ConfirmModalComponent]
+  entryComponents: [EntryResultComponent, EntryPlayerComponent, ConfirmModalComponent, H2HComponent]
 })
 export class AppModule { }
