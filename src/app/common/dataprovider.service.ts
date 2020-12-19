@@ -45,5 +45,11 @@ export class DataproviderService {
     let url = this.serverUrl + moduleName;
     return this.http.post(url, payload);
   }
+
+  getMatches = function (payload) {
+    let moduleName = 'Z_DATA_MATCHES_GET'
+    let url = this.serverUrl + moduleName;
+    return this.http.post(url, payload);
+  }
   
 }

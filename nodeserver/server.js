@@ -369,11 +369,28 @@ function handleDataGamesGet(res) {
     writeResponse(res,data);
 }
 
+function handleGetMatches(res, param, body) {
+    var filename = 'Z_DATA_MATCHES_GET' + '.json';
+    var data = getFileData(filename).data;
+    var player1Name = body.player1
+    var player2Name = body.player2
+    var gameName = body.game
+    var matches = data[gameName]
+
+    var h2h = _.filter(matches, function(v) {
+        return (v.player1 == player1Name && v.player2 == player2Name) || (v.player2 == player1Name && v.player1 == player2Name)
+    })
+
+    writeResponse(res,h2h);
+}
+
+
 var handlers = {
     Z_DATA_SCORE_GET:handleDataScoreGet,
     Z_DATA_SCORE_SET:handleDataScoreSet,
     Z_DATA_PLAYERS_GET:handleDataPlayersGet,
     Z_DATA_PLAYERS_SET:handleDataPlayersSet,
     Z_DATA_GAMES_GET:handleDataGamesGet,
-    Z_DELETE_SCORE:handleDeleteScore
+    Z_DELETE_SCORE:handleDeleteScore,
+    Z_DATA_MATCHES_GET:handleGetMatches
 };

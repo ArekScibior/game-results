@@ -191,6 +191,13 @@ export class MainViewComponent implements OnInit {
     }
   }
 
+  //temporary getting matches
+  getMatches() {
+    this.dataprovider.getMatches({player1: "Arek Ścibior", player2: "Michał Ścibior", game: 'fifa21'}).subscribe(response => {
+      console.log('response', response)
+    });
+  }
+
   filterPlayers(value) {
     if (_.isEmpty(this.fullDataSource)) {
       this.fullDataSource = JSON.parse(JSON.stringify(this.dataSource.filteredData))
