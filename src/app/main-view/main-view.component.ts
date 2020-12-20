@@ -22,7 +22,7 @@ export interface ScoreElement {
   points: number;
   scored: number;
   conceded: number;
-  winRate: string;
+  winRate: number;
 }
 
 export interface GamesElement {
@@ -68,7 +68,7 @@ const mapScoreTable = function(scoreTable) {
       winRate = ((v.wins / v.matches) * 100)
     }
     v.position = idx + 1
-    v.winRate = parseFloat(winRate.toFixed(2)) + "%"
+    v.winRate = parseFloat(winRate.toFixed(2))
     
   })
   return scoreTable
