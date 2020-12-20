@@ -121,14 +121,27 @@ function handleDeleteScore(res, param, body) {
     var filename = "Z_DATA_SCORE_GET" + '.json';
     var dataScore = getFileData(filename).data;
     var data = getFileData(filename);
+    var filenameMatches = "Z_DATA_MATCHES_GET" + '.json';
+    var dataMatches = getFileData(filenameMatches).data;
+    var dataFullMatches = getFileData(filenameMatches);
     var game = body.game.name
+    
     var dataScoreOmited = _.omit(dataScore,[game])
     dataScoreOmited[game] = []
     data.data = dataScoreOmited
-
+    
+    var dataMatchesOmited = _.omit(dataMatches,[game])
+    dataMatchesOmited[game] = []
+    dataFullMatches.data = dataMatchesOmited
+    console.log('dataFullMatches',dataFullMatches)
+    
     function callback(isOk){
-        if (isOk) writeResponse(res, {status:{status_code:"S",status: "Poprawnie usunięto dane dla wybranej gry."}, dataScore: data.data});    
-        else writeResponse(res, {status:{status_code:"E",status: "Niestety nie udało się usunąć danych."}});    
+        if (isOk) {
+            saveFile(dataFullMatches,filenameMatches);
+            writeResponse(res, {status:{status_code:"S",status: "Poprawnie usunięto dane dla wybranej gry."}, dataScore: data.data});
+        } else {
+            writeResponse(res, {status:{status_code:"E",status: "Niestety nie udało się usunąć danych."}});
+        }     
     }
     saveFile(data,filename,callback);
 }
