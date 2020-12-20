@@ -20,6 +20,9 @@ export interface H2H {
 })
 
 export class H2HComponent implements OnInit {
+	@ViewChild(MatPaginator, null) paginator: MatPaginator;
+  	@ViewChild(MatSort, null) sort: MatSort;
+
 	players: [];
 	constructor(
 		public toastr: ToastrService,
@@ -46,7 +49,6 @@ export class H2HComponent implements OnInit {
 		if (this.valid(data)) { return }
 		this.loading = true;
 		this.dataprovider.getMatches({player1: this.player1, player2: this.player2, game: this.data.game.name}).subscribe(response => {
-			console.log('response',response)
 			if (!_.isEmpty(response)) {
 				let matches = []
 				_.each(response, function(v) {
@@ -60,6 +62,8 @@ export class H2HComponent implements OnInit {
 				})
 				
 				this.dataSource = new MatTableDataSource<H2H>(matches)
+				this.dataSource.paginator = this.paginator;
+				this.dataSource.sort = this.sort;
 				this.showTable = true
 				this.loading = false;
 			} else {
