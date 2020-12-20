@@ -5,7 +5,8 @@
   </mat-toolbar>
 
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-1"></div>
+    <div class="col-md-3" style="padding:0; margin:0">
       <mat-form-field appearance="fill" class="select-game">
         <mat-label>Wybierz grę:</mat-label>
         <mat-select (selectionChange)="gameChanged($event.value)" [(ngModel)]="selectedGame">
