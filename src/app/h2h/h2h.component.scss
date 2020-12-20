@@ -33,3 +33,40 @@
     position: fixed;
     z-index:10001;
 }
+
+.input-player {
+    margin-bottom: 20px;
+    width: 70%;
+}
+
+@media (max-width: 600px) and (orientation: portrait) {
+    .mat-dialog-content {
+        min-height: 250px;
+    }
+
+    .input-player {
+        margin-bottom: 20px;
+        width: 100%;
+    }
+
+    .score-table {
+        width: 500px;
+    }
+    
+}
+
+@media (max-width: 900px) and (orientation: landscape) {
+    .mat-dialog-content {
+        min-height: 195px;
+    }
+
+    .input-player {
+        margin-bottom: 20px;
+        width: 85%;
+    }
+
+    .score-table {
+        width: 515px;
+    }
+    
+}

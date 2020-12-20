@@ -4,55 +4,11 @@
     height: 38vh;
 }
 
-table.request-table {
-    width:            100%;
-    background-color: transparent;
-    border-collapse:  collapse;
-
-    td.col-1 {
-        padding:          8px 0px 8px 0px;
-        border-top:       2px solid rgb(221, 221, 221);
-        border-bottom:    2px solid rgb(221, 221, 221);
-        width:            15%;
-        color:            white;
-        background-color: #747476;
+@media (max-width: 900px) and (orientation: landscape) {
+    .entry-input {
+        width: 70%
     }
-
-    td.col-2 {
-        padding:          8px 0px 8px 0px;
-        border-top:       2px solid rgb(221, 221, 221);
-        border-bottom:    2px solid rgb(221, 221, 221);
-        width:            43%;
-        background-color: white;
-
-        textarea {
-            width:  100%;
-            resize: vertical;
-        }
-    }
-
-    td.col-3 {
-        padding:          8px 0px 8px 0px;
-        border-top:       2px solid rgb(221, 221, 221);
-        border-bottom:    2px solid rgb(221, 221, 221);
-        width:            42%;
-        background-color: #f4f0f1;
-    }
-
-    td.col-3-top {
-        padding:          8px 0px 8px 0px;
-        border-top:       2px solid rgb(221, 221, 221);
-        border-bottom:    2px solid rgb(221, 221, 221);
-        width:            42%;
-        background-color: #f4f0f1;
-        vertical-align:   top;
-    }
-
-    td.col-1-2 {
-        padding:          0px 0px 0px 0px;
-        border-top:       2px solid rgb(221, 221, 221);
-        border-bottom:    2px solid rgb(221, 221, 221);
-        width:            58%;
-        background-color: white;
+    .mat-dialog-content {
+        height: 52vh;
     }
 }

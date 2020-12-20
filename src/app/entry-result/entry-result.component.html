@@ -29,7 +29,7 @@
       <b>Wynik spotkania: </b>
     </div>
     <div class="col-md-9">
-      {{player1}} <b><input [ngModel]="player1Score" style='width: 7%;' type="number" min="0" step="1" (ngModelChange)="onChange($event, 1)"> - <input [ngModel]="player2Score" style='width: 7%;' type="number" min="0" step="1" (ngModelChange)="onChange($event, 2)"></b> {{player2}}
+      {{player1}} <b><input [ngModel]="player1Score" class="score" type="number" min="0" step="1" (ngModelChange)="onChange($event, 1)"> - <input [ngModel]="player2Score" class="score" type="number" min="0" step="1" (ngModelChange)="onChange($event, 2)"></b> {{player2}}
     </div>
   </div>
 </div>

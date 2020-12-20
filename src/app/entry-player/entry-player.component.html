@@ -3,21 +3,21 @@
   <div class="col-md-12">
     <label><b>Imię i nazwisko:</b></label>
   </div>
-  <div class="col-md-12 input">
+  <div class="col-md-12 input entry-input">
     <input type="text" [(ngModel)]="name" class="form-control"/>
   </div>    
 
   <div class="col-md-12">
     <label><b>Wiek:</b></label>
   </div>
-  <div class="col-md-12 input">
+  <div class="col-md-12 input entry-input">
     <input type="text" [(ngModel)]="age" class="form-control"/>
   </div>
 
   <div class="col-md-12">
    <label><b>Ulubiony klub (opcjonalnie):</b></label>
   </div>
-  <div class="col-md-12 input">
+  <div class="col-md-12 input  entry-input">
     <input [(ngModel)]="favouriteClub"
     [typeahead]="clubs"
     [typeaheadScrollable]="true"

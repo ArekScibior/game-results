@@ -25,10 +25,10 @@
   <div>
     <div class="row">
       <div class="col-md-1"></div>
-      <div class="col-md-2">
-        <div class="input-group mb-3">
-          <input [(ngModel)]="searchValue" style='height: 43px;' type="text" class="form-control" placeholder="Filtruj graczy" aria-label="Filtruj graczy" aria-describedby="basic-addon2">
-          <div class="input-group-append">
+      <div class="col-md-5">
+        <div class="input-group mb-3 input-parent">
+          <input [(ngModel)]="searchValue" style='height: 44px;' type="text" class="form-control" placeholder="Filtruj graczy" aria-label="Filtruj graczy" aria-describedby="basic-addon2">
+          <div class="input-group-append filter-btn-parent">
             <button (click)="filterPlayers(searchValue)" class="btn btn-outline-secondary" type="button"><span class="material-icons">search</span></button>
           </div>
         </div>
@@ -108,11 +108,11 @@
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
         <mat-paginator #paginator [pageSize]="8" [pageSizeOptions]="[5, 10, 25, 50]"></mat-paginator>
-        <div class="col-md-12 button-add-parent">
+        <div class=" col sm-12 col-md-12 button-add-parent">
           <button (click)="openEntryScoreModal()" style="margin-right:10px;" mat-flat-button color="primary">Dodaj nowy wynik</button>
           <button (click)="openEntryPlayerModal()" style="margin-right:10px;" mat-flat-button color="primary">Dodaj nowego gracza</button>
-          <button *ngIf="invisible" (click)="openConfirmModal()" class="danger-btn" style="margin-right:10px;" mat-raised-button color="warn">Usuń wszystkie dane</button>
           <button (click)="openH2HModal()" style="margin-right:10px;" mat-raised-button color="primary">H2H</button>
+          <button *ngIf="invisible" (click)="openConfirmModal()" class="danger-btn" style="margin-right:10px;" mat-raised-button color="warn">Usuń wszystkie dane</button>
 
         </div>
       </div>

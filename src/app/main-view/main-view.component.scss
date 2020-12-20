@@ -65,3 +65,33 @@
     position: fixed;
     z-index:10001;
 }
+
+.filter-btn-parent {
+    background-color: #fff;;
+}
+
+.input-parent {
+    width: 50%;
+}
+
+@media (max-width: 600px) and (orientation: portrait) {
+    .button-add-parent {
+        background-color:#fff;
+        height: 75px;
+    }
+
+    .input-parent {
+        width: 70%;
+    }
+}
+
+@media (max-width: 900px) and (orientation: landscape) {
+    .button-add-parent {
+        background-color:#fff;
+        height: 75px;
+    }
+
+    .input-parent {
+        width: 90%;
+    }
+}

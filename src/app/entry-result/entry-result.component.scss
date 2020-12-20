@@ -8,3 +8,26 @@
 .mat-dialog-content {
     height: 250px;
 }
+
+.score {
+    width: 7%;
+}
+
+@media (max-width: 900px) and (orientation: landscape) {
+    .mat-dialog-content {
+        background-color:#fff;
+        height: 190px;
+    }
+}
+
+
+@media (max-width: 600px) and (orientation: portrait) {
+    .mat-dialog-content {
+        background-color:#fff;
+        height: auto;
+    }
+
+    .score {
+        width: 10% !important;
+    }
+}
