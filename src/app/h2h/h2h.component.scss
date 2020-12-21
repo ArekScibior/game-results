@@ -19,7 +19,7 @@
     text-align: right;
 }
 
-.loading-overlay ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+.loading-overlay-head-to-head ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
     stroke: #1E1E1E;
 }
 
@@ -37,7 +37,7 @@
     width: 800px;
 }
 
-.loading-overlay {
+.loading-overlay-head-to-head {
     width: 85%;
     height: 100%;
     display: flex;

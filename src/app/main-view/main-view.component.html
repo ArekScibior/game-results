@@ -9,7 +9,7 @@
     <div class="col-md-3" style="padding:0; margin:0">
       <mat-form-field appearance="fill" class="select-game">
         <mat-label>Wybierz grę:</mat-label>
-        <mat-select (selectionChange)="gameChanged($event.value)" [(ngModel)]="selectedGame">
+        <mat-select class="game-select" (selectionChange)="gameChanged($event.value)" [(ngModel)]="selectedGame">
           <mat-option *ngFor="let game of gamesSource" [value]="game.id">
             {{game.display}}
           </mat-option>
