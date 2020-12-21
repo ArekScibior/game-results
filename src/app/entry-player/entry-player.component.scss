@@ -4,11 +4,21 @@
     height: 38vh;
 }
 
+.entry-input {
+    width: 65%;
+}
+
 @media (max-width: 900px) and (orientation: landscape) {
     .entry-input {
         width: 70%
     }
     .mat-dialog-content {
         height: 52vh;
+    }
+}
+
+@media (max-width: 600px) and (orientation: portrait) {
+    .entry-input {
+        width: 100%
     }
 }

@@ -271,7 +271,7 @@ export class MainViewComponent implements OnInit {
   
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.width = '1000px';
+    dialogConfig.width = '700px';
     dialogConfig.position = {
       top: "5%"
     }

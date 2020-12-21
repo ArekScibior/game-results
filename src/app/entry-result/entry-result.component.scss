@@ -6,7 +6,7 @@
    }
 
 .mat-dialog-content {
-    height: 250px;
+    height: 213px;
 }
 
 .score {
@@ -24,7 +24,7 @@
 @media (max-width: 600px) and (orientation: portrait) {
     .mat-dialog-content {
         background-color:#fff;
-        height: auto;
+        height: 250px;
     }
 
     .score {
