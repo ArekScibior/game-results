@@ -53,7 +53,6 @@ export class EntryPlayerComponent implements OnInit {
 			age: this.age,
 			favouriteClub: this.favouriteClub
 		}
-		console.log(this.data.dataPlayer)
 		if (this.valid(this.data.dataPlayer)) {return}
 		
 		let dataToSend = {
@@ -63,8 +62,6 @@ export class EntryPlayerComponent implements OnInit {
 		this.dialogRef.close(dataToSend);
 	}
 
-	ngOnInit() {
-		console.log('this', this.clubs)
-	}
+	ngOnInit() {}
 
 }
