@@ -3,11 +3,7 @@
 .dropdown-menu{
     height:110px;
     overflow:auto;
-   }
-
-// .mat-dialog-content {
-//     min-height: 250px;
-// }
+}
 
 .dialog-with-table {
     min-height: 380px;
@@ -19,8 +15,12 @@
 
 .check-btn {
     border-radius: 0;
-    background-color: #883CF8 !important;
+    background-color: #1E1E1E !important;
     text-align: right;
+}
+
+.loading-overlay ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+    stroke: #1E1E1E;
 }
 
 .table-wrap {

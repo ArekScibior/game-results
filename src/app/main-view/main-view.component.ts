@@ -75,8 +75,8 @@ const mapScoreTable = function(scoreTable) {
 }
 
 LOGO_GAMES = [
-  {id: 1, src: "../../assets/fifa21-logo-25.png", "width": 270, "height": 75},
-  {id: 2, src: '../../assets/fifa-20-mono-logo.png', "width": 270, "height": 75}
+  {id: 1, src: "../../assets/fifa21-logo-25-white.png", "width": 270, "height": 75},
+  {id: 2, src: '../../assets/fifa-20-mono-logo-white.png', "width": 270, "height": 75}
 ];
 
 @Component({
