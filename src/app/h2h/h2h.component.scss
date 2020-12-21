@@ -5,8 +5,16 @@
     overflow:auto;
    }
 
-.mat-dialog-content {
-    min-height: 250px;
+// .mat-dialog-content {
+//     min-height: 250px;
+// }
+
+.dialog-with-table {
+    min-height: 380px;
+}
+
+.dialog-without-table {
+    height: 190px;
 }
 
 .check-btn {
@@ -30,7 +38,7 @@
 }
 
 .loading-overlay {
-    width: 100%;
+    width: 85%;
     height: 100%;
     display: flex;
     justify-content: center;

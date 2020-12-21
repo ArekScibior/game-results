@@ -1,5 +1,5 @@
 <h1 style="margin-bottom: 20px;" mat-dialog-title>H2H (Head to Head)</h1>
-<div mat-dialog-content>
+<div [ngClass]="{'dialog-with-table': showTable, 'dialog-without-table': !showTable}" mat-dialog-content>
   <div class="row input-player">
     <div class="loading-overlay" *ngIf="loading">
       <mat-spinner mode="indeterminate" value="40" color="accent"></mat-spinner>
