@@ -28,8 +28,9 @@
       </div>
     </div>
     <div class="row" style="margin-bottom: 20px;">
-      <div class="col-md-3">
+      <div class="col-md-12" style="display:flex; height: 35px;">
         <button class="check-btn" [disabled]="loading" (click)="getMatches()" style="margin-right:10px;" mat-raised-button color="primary">Sprawdź</button>
+        <p [hidden]="!showTable" style="line-height: 35px;">Podsumowanie: {{player1}}  <b>{{this.wins.player1}} - {{this.draws}} - {{this.wins.player2}}</b> {{player2}} </p>
       </div>
     </div>
     <div [hidden]="!showTable" class="row">

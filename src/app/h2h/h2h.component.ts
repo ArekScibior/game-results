@@ -35,6 +35,8 @@ export class H2HComponent implements OnInit {
 	game = {}
 	showTable = false;
 	loading = false;
+	wins = {}
+	draws = 0;
 	
 	displayedColumns: string[] = ['date', 'player1', 'player2', 'result'];
 	dataSource = new MatTableDataSource<H2H>();
@@ -51,7 +53,32 @@ export class H2HComponent implements OnInit {
 		this.dataprovider.getMatches({player1: this.player1, player2: this.player2, game: this.data.game.name}).subscribe(response => {
 			if (!_.isEmpty(response)) {
 				let matches = []
+				let player1 = data.player1
+				let wins = {
+					player1: 0,
+					player2: 0
+				}
+				let draws = 0;
 				_.each(response, function(v) {
+					let firstPlayerScore = ""
+					let secondPlayerScore = ""
+
+					if (v.player1 == player1) { 
+						firstPlayerScore = v.player1Score
+						secondPlayerScore = v.player2Score
+					} else {
+						firstPlayerScore = v.player2Score
+						secondPlayerScore = v.player1Score
+					}
+
+					if (firstPlayerScore > secondPlayerScore) {
+						wins.player1++
+					} else if (secondPlayerScore > firstPlayerScore) {
+						wins.player2++
+					} else if (firstPlayerScore == secondPlayerScore) {
+						draws++
+					}
+
 					let mappedObject = {
 						date: v.date,
 						player1: v.player1,
@@ -60,7 +87,9 @@ export class H2HComponent implements OnInit {
 					}
 					matches.push(mappedObject)
 				})
-				
+				matches = _.sortBy(matches, 'date').reverse()
+				this.wins = wins
+				this.draws = draws
 				this.dataSource = new MatTableDataSource<H2H>(matches)
 				this.dataSource.paginator = this.paginator;
 				this.dataSource.sort = this.sort;
