@@ -30,7 +30,7 @@ export class DetailsComponent implements OnInit {
     
     ) { }
 
-  currentPlayer = {}
+  currentPlayer = {id: null, name: "", age: "", favouriteClub: ""}
   playerScores = []
   players = []
   player2 = ""
