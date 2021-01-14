@@ -133,7 +133,6 @@ function handleDeleteScore(res, param, body) {
     var dataMatchesOmited = _.omit(dataMatches,[game])
     dataMatchesOmited[game] = []
     dataFullMatches.data = dataMatchesOmited
-    console.log('dataFullMatches',dataFullMatches)
     
     function callback(isOk){
         if (isOk) {
@@ -159,14 +158,12 @@ function handleDataScoreSet(res, param, body) {
     var data = getFileData(filename);
     var score = body.score
     var game = body.game
-    console.log(score, game)
     var getMax = function(array) {
         var tmp = _.map(array, function(v) {
             return v.idPlayer;
         });
     
         var maxIndex = Math.max.apply(Math, tmp);
-        console.log('maxIndex', maxIndex)
         return maxIndex + 1
     }
     if(score) {
@@ -318,7 +315,6 @@ function handleDataScoreSet(res, param, body) {
         var dataMatchesOmited = _.omit(getFileData(filename).data,[game])
         dataMatchesOmited[game] = matches
         dataMatches.data = dataMatchesOmited
-        console.log('newFile',dataMatches)
         saveFile(dataMatches,filename);
         return dataMatches
     }
@@ -406,7 +402,6 @@ function handleDataPlayersSet(res, param, body) {
 function handleDataGamesGet(res) {
     var filename = 'Z_DATA_GAMES_GET' + '.json';
     var data = getFileData(filename).data;
-    console.log(data)
     writeResponse(res,data);
 }
 
@@ -437,7 +432,6 @@ function getLast10Matches(res, param, body) {
         return (v.player1 == player1Name || v.player2 == player1Name)
     })
     lastGames = _.first(lastGames.reverse(), numberMatches)
-    console.log('lastGames',lastGames)
     writeResponse(res,lastGames);
 }
 
