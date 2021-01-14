@@ -33,7 +33,7 @@ export class H2HComponent implements OnInit {
 	player1 = '';
 	player2 = '';
 	game = {}
-	showTable = false;
+	hideTable = true;
 	loading = false;
 	wins = {}
 	draws = 0;
@@ -42,7 +42,7 @@ export class H2HComponent implements OnInit {
 	dataSource = new MatTableDataSource<H2H>();
 
 	getMatches() {
-		this.showTable = false;
+		this.hideTable = true;
 		let data = {
 			player1: this.player1,
 			player2: this.player2
@@ -93,7 +93,7 @@ export class H2HComponent implements OnInit {
 				this.dataSource = new MatTableDataSource<H2H>(matches)
 				this.dataSource.paginator = this.paginator;
 				this.dataSource.sort = this.sort;
-				this.showTable = true
+				this.hideTable = false
 				this.loading = false;
 			} else {
 				this.toastr.error('Brak danych dla wybranych graczy.')

@@ -1,5 +1,5 @@
 <h1 style="margin-bottom: 20px;" mat-dialog-title>H2H (Head to Head)</h1>
-<div [ngClass]="{'dialog-with-table': showTable, 'dialog-without-table': !showTable}" mat-dialog-content>
+<div [ngClass]="{'dialog-with-table': !hideTable, 'dialog-without-table': hideTable}" mat-dialog-content>
   <div class="row input-player">
     <div class="loading-overlay-head-to-head" *ngIf="loading">
       <mat-spinner mode="indeterminate" value="40" color="accent"></mat-spinner>
@@ -33,7 +33,7 @@
         <p [hidden]="!showTable" style="line-height: 35px;">Podsumowanie: {{player1}}  <b>{{this.wins.player1}} - {{this.draws}} - {{this.wins.player2}}</b> {{player2}} </p>
       </div>
     </div>
-    <div [hidden]="!showTable" class="row">
+    <div [hidden]="hideTable" class="row">
       <div class="col-md-1"></div>
       <div class="col-md-10">
         <mat-table matSort [dataSource]="dataSource" class="mat-elevation-z8 score-table">

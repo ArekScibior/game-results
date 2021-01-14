@@ -420,7 +420,7 @@ function handleGetMatches(res, param, body) {
     writeResponse(res,h2h);
 }
 
-function getLast10Matches(res, param, body) {
+function getLastMatches(res, param, body) {
     var filename = 'Z_DATA_MATCHES_GET' + '.json';
     var data = getFileData(filename).data;
     var player1Name = body.player1
@@ -444,5 +444,5 @@ var handlers = {
     Z_DATA_GAMES_GET:handleDataGamesGet,
     Z_DELETE_SCORE:handleDeleteScore,
     Z_DATA_MATCHES_GET:handleGetMatches,
-    Z_DATA_LAST_MATCHES: getLast10Matches
+    Z_DATA_LAST_MATCHES: getLastMatches
 };

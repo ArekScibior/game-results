@@ -45,7 +45,7 @@ export class DetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPlayer();
-    this.get10LastMatches();
+    this.getLastMatches();
   }
   
   getPlayer(): void {
@@ -122,7 +122,7 @@ export class DetailsComponent implements OnInit {
 		});
 	}
   
-  get10LastMatches() {
+  getLastMatches() {
     let callback = (response) => {
       if (!_.isEmpty(response)) {
 				let matches = []
@@ -149,7 +149,7 @@ export class DetailsComponent implements OnInit {
       if (this.store.get('matches') && this.store.get('playerData') == this.currentPlayer.name) {
         callback(this.store.get('matches'))
       } else {
-        this.dataprovider.getLast10Matches({player1: this.currentPlayer.name, game: 'fifa21', numberMatches: 5}).subscribe(response => {
+        this.dataprovider.getLastMatches({player1: this.currentPlayer.name, game: 'fifa21', numberMatches: 5}).subscribe(response => {
           this.store.set('matches', response)
           this.store.set('playerData', this.currentPlayer.name)
           callback(response)
