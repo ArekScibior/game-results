@@ -308,7 +308,7 @@ function handleDataScoreSet(res, param, body) {
         var dataMatches = getFileData(filename)
         var matches = getFileData(filename).data[game];
         var object = {
-            date: moment().format('YYYY.MM.DD'),
+            date: moment().format('YYYY.MM.DD HH:mm'),
             player1: score.player1,
             player2: score.player2,
             player1Score: score.player1Score,
