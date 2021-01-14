@@ -160,6 +160,15 @@ function handleDataScoreSet(res, param, body) {
     var score = body.score
     var game = body.game
     console.log(score, game)
+    var getMax = function(array) {
+        var tmp = _.map(array, function(v) {
+            return v.idPlayer;
+        });
+    
+        var maxIndex = Math.max.apply(Math, tmp);
+        console.log('maxIndex', maxIndex)
+        return maxIndex + 1
+    }
     if(score) {
         let rawData = _.find(dataScore, function(v, idx) {
             return idx == game
@@ -212,8 +221,14 @@ function handleDataScoreSet(res, param, body) {
             looser.scored = looser.scored + score.player2Score
             looser.conceded = looser.conceded + score.player1Score
 
-            if (_.isEmpty(_.findWhere(rawData, {name: score.player1}))) { rawData.push(winner)}
-            if (_.isEmpty(_.findWhere(rawData, {name: score.player2}))) { rawData.push(looser)}
+            if (_.isEmpty(_.findWhere(rawData, {name: score.player1}))) {
+                if (!winner.idPlayer) { winner.idPlayer = getMax(rawData) }
+                rawData.push(winner)
+            }
+            if (_.isEmpty(_.findWhere(rawData, {name: score.player2}))) {
+                if (!looser.idPlayer) { looser.idPlayer = getMax(rawData) }
+                rawData.push(looser)
+            }
 
         } else if (score.player1Score < score.player2Score) {
             let winner = {}
@@ -240,8 +255,14 @@ function handleDataScoreSet(res, param, body) {
             looser.scored = looser.scored + score.player1Score
             looser.conceded = looser.conceded + score.player2Score
 
-            if (_.isEmpty(_.findWhere(rawData, {name: score.player2}))) { rawData.push(winner)}
-            if (_.isEmpty(_.findWhere(rawData, {name: score.player1}))) { rawData.push(looser)}
+            if (_.isEmpty(_.findWhere(rawData, {name: score.player2}))) {
+                if (!winner.idPlayer) { winner.idPlayer = getMax(rawData) }
+                rawData.push(winner)
+            }
+            if (_.isEmpty(_.findWhere(rawData, {name: score.player1}))) {
+                if (!losser.idPlayer) { losser.idPlayer = getMax(rawData) }
+                rawData.push(looser)
+            }
 
         } else if (score.player1Score === score.player2Score) {
             let player1 = {}
@@ -268,8 +289,14 @@ function handleDataScoreSet(res, param, body) {
             player2.scored = player2.scored + score.player2Score
             player2.conceded = player2.conceded + score.player1Score
 
-            if (_.isEmpty(_.findWhere(rawData, {name: score.player1}))) { rawData.push(player1)}
-            if (_.isEmpty(_.findWhere(rawData, {name: score.player2}))) { rawData.push(player2)}
+            if (_.isEmpty(_.findWhere(rawData, {name: score.player1}))) {
+                if (!player1.idPlayer) { player1.idPlayer = getMax(rawData) }
+                rawData.push(player1)
+            }
+            if (_.isEmpty(_.findWhere(rawData, {name: score.player2}))) {
+                if (!player2.idPlayer) { player2.idPlayer = getMax(rawData) }
+                rawData.push(player2)
+            }
         }
         var dataScoreOmited = _.omit(dataScore,[game])
         dataScoreOmited[game] = rawData
