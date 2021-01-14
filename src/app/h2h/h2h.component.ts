@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatTableDataSource, MatPaginator, MatSort} from '@angular/material'
+import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material'
 import { ToastrService } from 'ngx-toastr';
 import { DataproviderService } from '../common/dataprovider.service';
 import * as moment from 'moment';
@@ -21,7 +21,7 @@ export interface H2H {
 
 export class H2HComponent implements OnInit {
 	@ViewChild(MatPaginator, null) paginator: MatPaginator;
-  	@ViewChild(MatSort, null) sort: MatSort;
+	@ViewChild(MatSort, null) sort: MatSort;
 
 	players: [];
 	constructor(
@@ -37,7 +37,7 @@ export class H2HComponent implements OnInit {
 	loading = false;
 	wins = {}
 	draws = 0;
-	
+
 	displayedColumns: string[] = ['date', 'player1', 'player2', 'result'];
 	dataSource = new MatTableDataSource<H2H>();
 
@@ -47,10 +47,10 @@ export class H2HComponent implements OnInit {
 			player1: this.player1,
 			player2: this.player2
 		}
-		
+
 		if (this.valid(data)) { return }
 		this.loading = true;
-		this.dataprovider.getMatches({player1: this.player1, player2: this.player2, game: this.data.game.name}).subscribe(response => {
+		this.dataprovider.getMatches({ player1: this.player1, player2: this.player2, game: this.data.game.name }).subscribe(response => {
 			if (!_.isEmpty(response)) {
 				let matches = []
 				let player1 = data.player1
@@ -59,11 +59,11 @@ export class H2HComponent implements OnInit {
 					player2: 0
 				}
 				let draws = 0;
-				_.each(response, function(v) {
+				_.each(response, function (v) {
 					let firstPlayerScore = ""
 					let secondPlayerScore = ""
 
-					if (v.player1 == player1) { 
+					if (v.player1 == player1) {
 						firstPlayerScore = v.player1Score
 						secondPlayerScore = v.player2Score
 					} else {

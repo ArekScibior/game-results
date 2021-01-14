@@ -1,15 +1,15 @@
 import { Component, OnInit, ViewChild, Inject, HostListener } from '@angular/core';
 import { forkJoin } from 'rxjs';
 import * as _ from 'underscore';
-import { MatTableDataSource, MatPaginator, MatSort} from '@angular/material'
-import {MatDialog, MatDialogConfig} from "@angular/material";
+import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material'
+import { MatDialog, MatDialogConfig } from "@angular/material";
 import { EntryResultComponent } from '../entry-result/entry-result.component';
 import { EntryPlayerComponent } from '../entry-player/entry-player.component';
 import { H2HComponent } from '../h2h/h2h.component';
 import { DataproviderService } from '../common/dataprovider.service';
 import { StorageCommonsService } from '../common/storage-commons.service';
 import { ConfirmModalComponent } from '../common/confirm-modal/confirm-modal.component';
-import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
 
@@ -53,15 +53,15 @@ export interface DialogData {
 
 
 //inicjalne zmienne do pobrania danych
-let selectedGame  = ""
+let selectedGame = ""
 let LOGO_GAMES: Logos[]
 
-const mapScoreTable = function(scoreTable) {
+const mapScoreTable = function (scoreTable) {
   scoreTable.sort(function (a, b) {
-      return a.points - b.points || a.scored - b.scored;
+    return a.points - b.points || a.scored - b.scored;
   }).reverse();
 
-  _.each(scoreTable, function(v, idx) {
+  _.each(scoreTable, function (v, idx) {
     let winRate = 0
     if (v.matches == 0) {
       winRate = 0
@@ -70,14 +70,14 @@ const mapScoreTable = function(scoreTable) {
     }
     v.position = idx + 1
     v.winRate = parseFloat(winRate.toFixed(2))
-    
+
   })
   return scoreTable
 }
 
 LOGO_GAMES = [
-  {id: 1, src: "../../assets/fifa21-logo-25-white.png", "width": 270, "height": 75},
-  {id: 2, src: '../../assets/fifa-20-mono-logo-white.png', "width": 270, "height": 75}
+  { id: 1, src: "../../assets/fifa21-logo-25-white.png", "width": 270, "height": 75 },
+  { id: 2, src: '../../assets/fifa-20-mono-logo-white.png', "width": 270, "height": 75 }
 ];
 
 @Component({
@@ -91,10 +91,10 @@ export class MainViewComponent implements OnInit {
   cheat = [105, 100, 100, 113, 100];
   timeoutPromise
   bodyKeypress = function (event) {
-    this.timeoutPromise = setTimeout (() => { _.identity, 0 });
+    this.timeoutPromise = setTimeout(() => { _.identity, 0 });
     if (event.which === this.cheat[this.cheatIndex]) {
       clearTimeout(this.timeoutPromise);
-      this.timeoutPromise = setTimeout (() => { this.cheatIndex = 0;}, 3000);
+      this.timeoutPromise = setTimeout(() => { this.cheatIndex = 0; }, 3000);
       this.cheatIndex = this.cheatIndex + 1;
       if (this.cheatIndex === this.cheat.length) {
         this.invisible = true;
@@ -117,28 +117,28 @@ export class MainViewComponent implements OnInit {
     public dataprovider: DataproviderService,
     public dialog: MatDialog,
     public store: StorageCommonsService
-    ) {
-      breakpointObserver.observe([
-        Breakpoints.HandsetLandscape,
-        Breakpoints.HandsetPortrait
-      ]).subscribe(result => {
-        if (result.matches) {
-          this.displayedColumns = ['position', 'name', 'points'];
-        }
-      });
-    }
+  ) {
+    breakpointObserver.observe([
+      Breakpoints.HandsetLandscape,
+      Breakpoints.HandsetPortrait
+    ]).subscribe(result => {
+      if (result.matches) {
+        this.displayedColumns = ['position', 'name', 'points'];
+      }
+    });
+  }
   // initial variables
-  searchValue   = ""
-  idInterval    = null
-  timestamp     = moment().format('YYYY.MM.DD HH:mm:ss')
-  loading       = false;
-  invisible     = false;
+  searchValue = ""
+  idInterval = null
+  timestamp = moment().format('YYYY.MM.DD HH:mm:ss')
+  loading = false;
+  invisible = false;
 
-  logo          = LOGO_GAMES[0]
-  logosSource   = LOGO_GAMES;
-  gamesSource   = [];
-  selectedGame  = selectedGame;
-  initSelectedGameName = _.findWhere(this.gamesSource, {id: selectedGame})
+  logo = LOGO_GAMES[0]
+  logosSource = LOGO_GAMES;
+  gamesSource = [];
+  selectedGame = selectedGame;
+  initSelectedGameName = _.findWhere(this.gamesSource, { id: selectedGame })
 
   //definicja kolumn dla tabeli z wynikami oraz init gry na fifa21
   initialGame = {}
@@ -148,9 +148,9 @@ export class MainViewComponent implements OnInit {
   fullDataSource = [];
   dataSource = new MatTableDataSource<ScoreElement>();
   namesToFilter = []
-  
+
   dataLoadedCallback(data) {
-    if (data.players) {this.players = data.players}
+    if (data.players) { this.players = data.players }
     this.scores = data.scores
 
     let updateAllData = this.store.get('allData')
@@ -159,7 +159,7 @@ export class MainViewComponent implements OnInit {
     this.store.set('allData', updateAllData)
     this.store.set('score', this.scores)
     this.store.set('players', this.players)
-    
+
     let initialGame = mapScoreTable(this.scores['fifa21'])
     this.fullDataSource = JSON.parse(JSON.stringify(this.initialGame))
     this.namesToFilter = _.pluck(this.initialGame, 'name')
@@ -170,7 +170,7 @@ export class MainViewComponent implements OnInit {
     this.loading = false
   }
 
-  getData = function() {
+  getData = function () {
     let callback = (data) => {
       this.scores = data[0]
       this.gamesSource = data[1]
@@ -189,7 +189,7 @@ export class MainViewComponent implements OnInit {
       forkJoin(promises).subscribe(data => {
         this.store.set('allData', data)
         callback(data)
-        
+
       })
     }
   }
@@ -215,7 +215,7 @@ export class MainViewComponent implements OnInit {
     if (_.isEmpty(this.fullDataSource)) {
       this.fullDataSource = JSON.parse(JSON.stringify(this.dataSource.filteredData))
     }
-    let filtered = _.filter(this.fullDataSource, function(v) { return v.name.toLowerCase().indexOf(value.toLowerCase()) != -1})
+    let filtered = _.filter(this.fullDataSource, function (v) { return v.name.toLowerCase().indexOf(value.toLowerCase()) != -1 })
     this.dataSource = new MatTableDataSource<ScoreElement>(filtered);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -224,18 +224,18 @@ export class MainViewComponent implements OnInit {
   updateScoreTable(scoretable) {
     let gameDataSource = mapScoreTable(scoretable)
     this.fullDataSource = JSON.parse(JSON.stringify(gameDataSource))
-    this.dataSource = new MatTableDataSource<ScoreElement>(gameDataSource); 
+    this.dataSource = new MatTableDataSource<ScoreElement>(gameDataSource);
     this.namesToFilter = _.pluck(gameDataSource, 'name')
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
   gameChanged(val) {
-    this.logo = _.findWhere(this.logosSource, {id: val})
-    let name = _.findWhere(this.gamesSource, {id: val}).name 
+    this.logo = _.findWhere(this.logosSource, { id: val })
+    let name = _.findWhere(this.gamesSource, { id: val }).name
     let gameDataSource = mapScoreTable(this.scores[name])
     this.fullDataSource = JSON.parse(JSON.stringify(gameDataSource))
-    this.dataSource = new MatTableDataSource<ScoreElement>(gameDataSource); 
+    this.dataSource = new MatTableDataSource<ScoreElement>(gameDataSource);
     this.namesToFilter = _.pluck(gameDataSource, 'name')
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -247,8 +247,8 @@ export class MainViewComponent implements OnInit {
       game: data.game.name
     }
     this.dataprovider.setScoreData(payload).subscribe(response => {
-      if (response.status.status_code == "S") { 
-        this.toastr.success(response.status.status, "") 
+      if (response.status.status_code == "S") {
+        this.toastr.success(response.status.status, "")
       } else {
         this.toastr.error(response.status.status, "")
         return
@@ -272,12 +272,12 @@ export class MainViewComponent implements OnInit {
       top: "5%"
     };
     dialogConfig.data = {
-      'game': _.findWhere(this.gamesSource, {id: this.selectedGame}),
+      'game': _.findWhere(this.gamesSource, { id: this.selectedGame }),
       'playerList': _.pluck(this.players, 'name'),
       'dataScore': {}
     }
 
-    
+
     const dialogRef = this.dialog.open(EntryResultComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
@@ -289,7 +289,7 @@ export class MainViewComponent implements OnInit {
 
   openEntryPlayerModal(): void {
     const dialogConfig = new MatDialogConfig();
-  
+
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width = '700px';
@@ -299,34 +299,34 @@ export class MainViewComponent implements OnInit {
     dialogConfig.data = {
       'dataPlayer': {}
     }
-  
+
     const dialogRef = this.dialog.open(EntryPlayerComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
         this.loading = true
         this.dataprovider.setPlayerData(data).subscribe(response => {
-          if (response.status.status_code == "S") { 
-            this.toastr.success(response.status.status, "") 
+          if (response.status.status_code == "S") {
+            this.toastr.success(response.status.status, "")
           } else {
             this.toastr.error(response.status.status, "")
             this.loading = false
             return
           }
-  
+
           let data = {
             scores: response.dataScore,
             players: response.dataPlayers
           }
           this.dataLoadedCallback(data)
-          
+
         });
       }
-    });  
+    });
   }
 
   openH2HModal(): void {
     const dialogConfig = new MatDialogConfig();
-  
+
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width = '1000px';
@@ -334,17 +334,17 @@ export class MainViewComponent implements OnInit {
       top: "5%"
     }
     dialogConfig.data = {
-      'game': _.findWhere(this.gamesSource, {id: this.selectedGame}),
+      'game': _.findWhere(this.gamesSource, { id: this.selectedGame }),
       'playerList': _.pluck(this.players, 'name'),
     }
-  
-    
+
+
     const dialogRef = this.dialog.open(H2HComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
-        
+
       }
-    });  
+    });
   }
 
   openConfirmModal(): void {
@@ -353,29 +353,29 @@ export class MainViewComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.minWidth = '700px';
-		dialogConfig.maxHeight = '200px';
+    dialogConfig.maxHeight = '200px';
     dialogConfig.position = {
       top: "5%"
     };
     dialogConfig.data = {
-      'game': _.findWhere(this.gamesSource, {id: this.selectedGame}),
+      'game': _.findWhere(this.gamesSource, { id: this.selectedGame }),
       'messsage': "Czy napewno chcesz usunąć wszystkie dane? Zostaną one bezpowrotnie usunięte.",
       'title': "Potwierdzenie usunięcia."
     }
 
-    
+
     const dialogRef = this.dialog.open(ConfirmModalComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
         this.loading = true;
-        this.dataprovider.deleteData({game: _.findWhere(this.gamesSource, {id: this.selectedGame})}).subscribe(response => {
-          if (response.status.status_code == "S") { 
-            this.toastr.success(response.status.status, "") 
+        this.dataprovider.deleteData({ game: _.findWhere(this.gamesSource, { id: this.selectedGame }) }).subscribe(response => {
+          if (response.status.status_code == "S") {
+            this.toastr.success(response.status.status, "")
           } else {
             this.toastr.error(response.status.status, "")
             return
           }
-          
+
           let data = {
             scores: response.dataScore
           }
@@ -384,6 +384,6 @@ export class MainViewComponent implements OnInit {
       }
     });
   }
-  
+
 }
 

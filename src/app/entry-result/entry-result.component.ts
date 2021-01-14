@@ -23,7 +23,7 @@ export class EntryResultComponent implements OnInit {
 	game = {}
 
 	onChange(res, id) {
-		if (id == 1) { this.player1Score = res } else if (id == 2) {this.player2Score = res}
+		if (id == 1) { this.player1Score = res } else if (id == 2) { this.player2Score = res }
 	}
 
 	close(): void {
@@ -51,7 +51,7 @@ export class EntryResultComponent implements OnInit {
 			this.toastr.error("Nie znaleziono gracza nr 2. Wybierz z listy.", "")
 			return true;
 		}
-		
+
 		if (data.player1 == data.player2) {
 			this.toastr.error("Wybrani gracze są tacy sami.", "")
 			return true;
@@ -77,13 +77,13 @@ export class EntryResultComponent implements OnInit {
 			player2Score: this.player2Score,
 		}
 		const toValidArray = [this.data.dataScore.player1, this.data.dataScore.player2, this.data.dataScore.player1Score, this.data.dataScore.player2Score]
-		if (this.valid(this.data.dataScore)) {return}
-		
+		if (this.valid(this.data.dataScore)) { return }
+
 		let dataToSend = {
 			dataScore: this.data.dataScore,
 			game: this.data.game
 		}
-		
+
 		this.dialogRef.close(dataToSend);
 	}
 

@@ -3,7 +3,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
 import * as _ from 'underscore';
-import * as  clubsJOSN  from  '../../assets/clubs.json';
+import * as  clubsJOSN from '../../assets/clubs.json';
 
 let CLUBS = (clubsJOSN as any).default;
 
@@ -22,8 +22,8 @@ export class EntryPlayerComponent implements OnInit {
 	name = '';
 	age = '';
 	favouriteClub = '';
-	clubs  = _.sortBy(_.map(_.pluck(_.flatten(_.pluck(CLUBS, 'clubs')), 'name')));
-	
+	clubs = _.sortBy(_.map(_.pluck(_.flatten(_.pluck(CLUBS, 'clubs')), 'name')));
+
 	close(): void {
 		this.dialogRef.close();
 	}
@@ -43,7 +43,7 @@ export class EntryPlayerComponent implements OnInit {
 			this.toastr.error("Proszę uzupełnić poprawnie wiek.", "")
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -53,15 +53,15 @@ export class EntryPlayerComponent implements OnInit {
 			age: this.age,
 			favouriteClub: this.favouriteClub
 		}
-		if (this.valid(this.data.dataPlayer)) {return}
-		
+		if (this.valid(this.data.dataPlayer)) { return }
+
 		let dataToSend = {
 			dataPlayer: this.data.dataPlayer
 		}
-		
+
 		this.dialogRef.close(dataToSend);
 	}
 
-	ngOnInit() {}
+	ngOnInit() { }
 
 }
