@@ -7,6 +7,7 @@ import { EntryResultComponent } from '../entry-result/entry-result.component';
 import { EntryPlayerComponent } from '../entry-player/entry-player.component';
 import { H2HComponent } from '../h2h/h2h.component';
 import { DataproviderService } from '../common/dataprovider.service';
+import { StorageCommonsService } from '../common/storage-commons.service';
 import { ConfirmModalComponent } from '../common/confirm-modal/confirm-modal.component';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import { ToastrService } from 'ngx-toastr';
@@ -114,7 +115,8 @@ export class MainViewComponent implements OnInit {
     breakpointObserver: BreakpointObserver,
     public toastr: ToastrService,
     public dataprovider: DataproviderService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public store: StorageCommonsService
     ) {
       breakpointObserver.observe([
         Breakpoints.HandsetLandscape,
@@ -154,6 +156,7 @@ export class MainViewComponent implements OnInit {
     this.fullDataSource = JSON.parse(JSON.stringify(this.initialGame))
     this.namesToFilter = _.pluck(this.initialGame, 'name')
     this.dataSource = new MatTableDataSource<ScoreElement>(initialGame);
+    console.log(this.dataSource)
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.loading = false
@@ -170,6 +173,8 @@ export class MainViewComponent implements OnInit {
         scores: this.scores,
         games: this.gamesSource
       }
+      this.store.set('score', this.scores)
+      this.store.set('players', this.players)
       this.dataLoadedCallback(datas)
     })
   }

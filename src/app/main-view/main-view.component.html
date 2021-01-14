@@ -54,7 +54,11 @@
           <!-- Name Column -->
           <ng-container matColumnDef="name">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Imię i Nazwisko </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+            <mat-cell *matCellDef="let element"> 
+              <a href="" routerLink="/details/{{element.idPlayer}}">
+                {{element.name}} 
+              </a>
+            </mat-cell>
           </ng-container>
           
           <!-- Matches Column -->

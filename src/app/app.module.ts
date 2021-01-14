@@ -47,15 +47,17 @@ import { EntryResultComponent } from './entry-result/entry-result.component';
 import { EntryPlayerComponent } from './entry-player/entry-player.component';
 import { H2HComponent } from './h2h/h2h.component';
 import { ConfirmModalComponent } from './common/confirm-modal/confirm-modal.component';
+import { DetailsComponent } from './details/details.component';
 
 @NgModule({
-  declarations: [	
+  declarations: [		
     AppComponent,
     MainViewComponent,
     EntryResultComponent,
     EntryPlayerComponent,
     ConfirmModalComponent,
-    H2HComponent
+    H2HComponent,
+      DetailsComponent
    ],
   imports: [
     HttpClientModule,
