@@ -66,7 +66,7 @@ export class DetailsComponent implements OnInit {
     let callback = (response) => {
       if (!_.isEmpty(response)) {
 				let matches = []
-        matches = _.sortBy(response, 'date').reverse()
+        matches = response
         _.each(matches, (match) => {
           match.result = match.player1Score + " - " + match.player2Score
         })
