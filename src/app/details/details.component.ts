@@ -82,15 +82,21 @@ export class DetailsComponent implements OnInit {
     }
 
     this.loading = true;
-    if (this.store.get('matches') && this.store.get('playerData') == this.currentPlayer.name) {
-      callback(this.store.get('matches'))
+    if (_.isEmpty(this.currentPlayer)) {
+      this.toastr.error('Brak danych dot. wybranego gracza. Proszę spróbować ponownie uruchomić aplikację.')
+      return
     } else {
-      this.dataprovider.getLast10Matches({player1: this.currentPlayer.name, game: 'fifa21', numberMatches: 5}).subscribe(response => {
-        this.store.set('matches', response)
-        this.store.set('playerData', this.currentPlayer.name)
-        callback(response)
-      });
+      if (this.store.get('matches') && this.store.get('playerData') == this.currentPlayer.name) {
+        callback(this.store.get('matches'))
+      } else {
+        this.dataprovider.getLast10Matches({player1: this.currentPlayer.name, game: 'fifa21', numberMatches: 5}).subscribe(response => {
+          this.store.set('matches', response)
+          this.store.set('playerData', this.currentPlayer.name)
+          callback(response)
+        });
+      }
     }
+    
 		
 	}
 

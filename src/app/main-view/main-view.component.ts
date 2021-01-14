@@ -152,6 +152,14 @@ export class MainViewComponent implements OnInit {
   dataLoadedCallback(data) {
     if (data.players) {this.players = data.players}
     this.scores = data.scores
+
+    let updateAllData = this.store.get('allData')
+    updateAllData[0] = this.scores
+    updateAllData[2] = this.players
+    this.store.set('allData', updateAllData)
+    this.store.set('score', this.scores)
+    this.store.set('players', this.players)
+    
     let initialGame = mapScoreTable(this.scores['fifa21'])
     this.fullDataSource = JSON.parse(JSON.stringify(this.initialGame))
     this.namesToFilter = _.pluck(this.initialGame, 'name')
@@ -163,8 +171,7 @@ export class MainViewComponent implements OnInit {
   }
 
   getData = function() {
-    let promises = [this.dataprovider.getScoreData(), this.dataprovider.getGamesData(), this.dataprovider.getPlayersData()]
-    forkJoin(promises).subscribe(data => {
+    let callback = (data) => {
       this.scores = data[0]
       this.gamesSource = data[1]
       this.players = data[2]
@@ -173,10 +180,18 @@ export class MainViewComponent implements OnInit {
         scores: this.scores,
         games: this.gamesSource
       }
-      this.store.set('score', this.scores)
-      this.store.set('players', this.players)
       this.dataLoadedCallback(datas)
-    })
+    }
+    if (this.store.get('allData')) {
+      callback(this.store.get('allData'))
+    } else {
+      let promises = [this.dataprovider.getScoreData(), this.dataprovider.getGamesData(), this.dataprovider.getPlayersData()]
+      forkJoin(promises).subscribe(data => {
+        this.store.set('allData', data)
+        callback(data)
+        
+      })
+    }
   }
 
   ngOnInit() {
@@ -242,6 +257,7 @@ export class MainViewComponent implements OnInit {
       let data = {
         scores: response.dataScore
       }
+      this.store.set('matches', undefined)
       this.dataLoadedCallback(data)
     });
   }
@@ -293,6 +309,7 @@ export class MainViewComponent implements OnInit {
             this.toastr.success(response.status.status, "") 
           } else {
             this.toastr.error(response.status.status, "")
+            this.loading = false
             return
           }
   
