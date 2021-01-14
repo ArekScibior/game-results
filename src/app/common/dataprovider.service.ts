@@ -51,5 +51,11 @@ export class DataproviderService {
     let url = this.serverUrl + moduleName;
     return this.http.post(url, payload);
   }
+
+  getLast10Matches = function (payload) {
+    let moduleName = 'Z_DATA_LAST_MATCHES'
+    let url = this.serverUrl + moduleName;
+    return this.http.post(url, payload);
+  }
   
 }

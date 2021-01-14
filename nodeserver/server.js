@@ -424,6 +424,22 @@ function handleGetMatches(res, param, body) {
     writeResponse(res,h2h);
 }
 
+function getLast10Matches(res, param, body) {
+    var filename = 'Z_DATA_MATCHES_GET' + '.json';
+    var data = getFileData(filename).data;
+    var player1Name = body.player1
+    var gameName = body.game
+    var numberMatches = body.numberMatches
+    var matches = data[gameName]
+
+    var lastGames = _.filter(matches, function(v) {
+        return (v.player1 == player1Name || v.player2 == player1Name)
+    })
+    lastGames = _.first(lastGames.reverse(), numberMatches)
+    console.log('lastGames',lastGames)
+    writeResponse(res,lastGames);
+}
+
 
 var handlers = {
     Z_DATA_SCORE_GET:handleDataScoreGet,
@@ -432,5 +448,6 @@ var handlers = {
     Z_DATA_PLAYERS_SET:handleDataPlayersSet,
     Z_DATA_GAMES_GET:handleDataGamesGet,
     Z_DELETE_SCORE:handleDeleteScore,
-    Z_DATA_MATCHES_GET:handleGetMatches
+    Z_DATA_MATCHES_GET:handleGetMatches,
+    Z_DATA_LAST_MATCHES: getLast10Matches
 };
