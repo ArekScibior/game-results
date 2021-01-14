@@ -24,6 +24,10 @@
     stroke: #1E1E1E;
 }
 
+.loading-overlay-head-to-head ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+    stroke: #1E1E1E;
+}
+
 .loading-overlay-last {
     width: 65%;
     height: 100%;

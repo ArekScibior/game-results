@@ -54,7 +54,79 @@
                   </div>
               </div> 
             </mat-tab>
-              <mat-tab label="H2H"> Content 2 </mat-tab>
+              <mat-tab label="H2H">
+                <div style='padding-bottom: 130px; display:flex;'>
+                  <div class="col-md-4">
+                    <div class="row" style="margin-top: 10px;">
+                      <div class="loading-overlay-head-to-head" *ngIf="loading">
+                        <mat-spinner mode="indeterminate" value="40" color="accent"></mat-spinner>
+                      </div>
+                      <div class="col-md-4" style="margin-bottom:20px;">
+                        <label for=""><b>Gracz 1:</b></label>
+                      </div>
+                      <div class="col-md-8">
+                        <input value="{{currentPlayer.name}}"
+                          disabled=true
+                          class="form-control">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4">
+                        <label for=""><b>Gracz 2:</b></label>
+                      </div>
+                      <div class="col-md-8">
+                        <input [(ngModel)]="player2"
+                        [typeahead]="players"
+                        [typeaheadScrollable]="true"
+                        [typeaheadOptionsInScrollableView]="4"
+                        class="form-control">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <button class="check-btn" [disabled]="loading" (click)="getMatchesH2H()" style="margin-left:16px;" mat-raised-button color="primary">Sprawdź</button>
+                    </div>
+                  </div>
+                  <div class="col-md-8" style="margin-top: 10px;">
+                    <div [hidden]="hideTable " class="row">
+                      <div class="col-md-10">
+                        <mat-table matSort [dataSource]="dataSourceH2H" class="mat-elevation-z8 score-table">
+                  
+                          <!--- Note that these columns can be defined in any order.
+                                The actual rendered columns are set as a property on the row definition" -->
+                        
+                          <!-- Date Column -->
+                          <ng-container matColumnDef="date">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Data. </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.date}} </mat-cell>
+                          </ng-container>
+                        
+                          <!-- Player1 Column -->
+                          <ng-container matColumnDef="player1">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Gracz 1 </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.player1}} </mat-cell>
+                          </ng-container>
+                          
+                          <!-- Player2 Column -->
+                          <ng-container matColumnDef="player2">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Gracz 2 </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.player2}} </mat-cell>
+                          </ng-container>
+                
+                          <!-- Result Column -->
+                          <ng-container matColumnDef="result">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Wynik </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.result}} </mat-cell>
+                          </ng-container>
+                
+                          <mat-header-row *matHeaderRowDef="displayedColumns sticky: true"></mat-header-row>
+                          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                        </mat-table>
+                        <mat-paginator class="paginator" [pageSize]="4" [pageSizeOptions]="[4, 10, 25, 50]"></mat-paginator>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </mat-tab>
               <mat-tab label="Statystyka"> Content 3 </mat-tab>
             </mat-tab-group>
           </div>
