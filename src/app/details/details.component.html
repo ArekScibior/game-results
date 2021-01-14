@@ -1,3 +1,66 @@
-<p>
-  details works!
-</p>
+<div class='wrapper-details'>
+
+  <div class="col-md-1"></div>
+  <div class="col-md-10 details-container">
+    <div style="height: 95%; width: 100%;">
+      <div class="row">
+        <span routerLink="/main" class="material-icons" style="font-size: 30px; margin-left: 25px; margin-top: -10px; cursor: pointer;">
+          arrow_back
+        </span>
+      </div>
+      <div class="row" style="margin:0">
+        <div class="col-md-1">
+          <img src="../../assets/blank_avatar.svg" alt="avatar" width="150px;">
+        </div>
+        <div class="col-md-10">
+          <div class="details-player">
+            <span><b>Imię i nazwisko:</b> {{currentPlayer.name}}</span>
+            <span><b>Wiek:</b> {{currentPlayer.age}}</span>
+            <span><b>Ulubiony klub:</b> {{currentPlayer.favouriteClub}}</span>
+            <mat-tab-group>
+              <mat-tab label="Ostatnie mecze">
+                <div class="loading-overlay-last" *ngIf="loading">
+                  <mat-spinner mode="indeterminate" value="40" color="accent"></mat-spinner>
+                </div>
+                <div>
+                  <div class="row" style='margin:0 0 0 -12px'>
+                    <div [hidden]="loading" class="col-md-10">
+                      <mat-table matSort [dataSource]="dataSource" class="mat-elevation-z8 last-games">
+              
+                        <ng-container matColumnDef="date">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header> Data. </mat-header-cell>
+                          <mat-cell *matCellDef="let element"> {{element.date}} </mat-cell>
+                        </ng-container>
+                      
+                        <ng-container matColumnDef="player1">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header> Gracz 1 </mat-header-cell>
+                          <mat-cell *matCellDef="let element"> {{element.player1}} </mat-cell>
+                        </ng-container>
+                        
+                        <ng-container matColumnDef="player2">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header> Gracz 2 </mat-header-cell>
+                          <mat-cell *matCellDef="let element"> {{element.player2}} </mat-cell>
+                        </ng-container>
+              
+                        <ng-container matColumnDef="result">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header> Wynik </mat-header-cell>
+                          <mat-cell *matCellDef="let element"> {{element.result}} </mat-cell>
+                        </ng-container>
+              
+                        <mat-header-row *matHeaderRowDef="displayedColumns sticky: true"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                      </mat-table>
+                    </div>
+                  </div>
+              </div> 
+            </mat-tab>
+              <mat-tab label="H2H"> Content 2 </mat-tab>
+              <mat-tab label="Statystyka"> Content 3 </mat-tab>
+            </mat-tab-group>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-1"></div>
+</div>
