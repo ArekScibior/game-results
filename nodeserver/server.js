@@ -371,6 +371,7 @@ function handleDataPlayersSet(res, param, body) {
         var dataScore = getFileData(filenameScore).data;
         _.each(dataScore, function(el) {
             var emptyObject = {
+                idPlayer: _.last(dataPlayers).id,
                 conceded: 0,
                 draws: 0,
                 losses: 0,
