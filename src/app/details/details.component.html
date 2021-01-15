@@ -127,7 +127,26 @@
                   </div>
                 </div>
               </mat-tab>
-              <mat-tab label="Statystyka"> Content 3 </mat-tab>
+              <mat-tab label="Statystyka">
+                <div>
+                  <div class="row marg0padd0" style="margin: 15px 0 15px 15px">
+                    <h2>Ranking: {{fifa21Score.position}} ({{fifa21Score.points}} pkt)</h2>
+                  </div>
+                  <div class="row marg0padd0" style='display:flex'>
+                    <div class="col-md-4">
+                      <p><b>Mecze: </b>{{fifa21Score.matches}}</p>
+                      <p><b>Zwycięstwa: </b>{{fifa21Score.wins}}</p>
+                      <p><b>Porażki:</b> {{fifa21Score.losses}}</p>
+                      <p><b>Remisy:</b> {{fifa21Score.draws}}</p>
+                      <p><b>Win Rate:</b> {{fifa21Score.winRate}}%</p>
+                    </div>
+                    <div class="col-md-4">
+                      <p><b>Gole zdobyte:</b> {{fifa21Score.scored}}</p>
+                      <p><b>Gole stracone:</b> {{fifa21Score.conceded}}</p>
+                    </div>
+                  </div>
+                </div>
+              </mat-tab>
             </mat-tab-group>
           </div>
         </div>

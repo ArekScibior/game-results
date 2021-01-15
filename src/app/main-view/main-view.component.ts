@@ -157,10 +157,11 @@ export class MainViewComponent implements OnInit {
     updateAllData[0] = this.scores
     updateAllData[2] = this.players
     this.store.set('allData', updateAllData)
-    this.store.set('score', this.scores)
     this.store.set('players', this.players)
 
     let initialGame = mapScoreTable(this.scores['fifa21'])
+    this.store.set('score', this.scores)
+    
     this.fullDataSource = JSON.parse(JSON.stringify(this.initialGame))
     this.namesToFilter = _.pluck(this.initialGame, 'name')
     this.dataSource = new MatTableDataSource<ScoreElement>(initialGame);

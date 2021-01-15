@@ -38,6 +38,7 @@ export class DetailsComponent implements OnInit {
 	wins = {}
 	draws = 0;
 	hideTable = true
+	fifa21Score = {}
 
 	displayedColumns: string[] = ['date', 'player1', 'player2', 'result'];
 	dataSource = new MatTableDataSource<LAST_GAMESH2H>();
@@ -58,11 +59,12 @@ export class DetailsComponent implements OnInit {
 			return
 		} else {
 			_.each(allScores, (v, idx) => {
-				let currentPlayerScore = _.find(v, function (player) { return player.idPlayer })
+				let currentPlayerScore = _.find(v, function (player) { return player.idPlayer == id })
 				if (currentPlayerScore) { this.playerScores[idx] = currentPlayerScore }
 			})
 			this.currentPlayer = _.find(allPlayers, (v) => v.id == id)
 			this.players = _.filter(this.players, (v) => v !== this.currentPlayer.name)
+			this.fifa21Score = this.playerScores['fifa21']
 		}
 	}
 
