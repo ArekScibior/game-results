@@ -59,7 +59,7 @@ export class H2HComponent implements OnInit {
 					player2: 0
 				}
 				let draws = 0;
-				_.each(response, function (v) {
+				_.each(response, (v) => {
 					let firstPlayerScore = ""
 					let secondPlayerScore = ""
 

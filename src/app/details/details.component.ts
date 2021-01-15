@@ -59,7 +59,7 @@ export class DetailsComponent implements OnInit {
 			return
 		} else {
 			_.each(allScores, (v, idx) => {
-				let currentPlayerScore = _.find(v, function (player) { return player.idPlayer == id })
+				let currentPlayerScore = _.find(v, (player) => player.idPlayer == id )
 				if (currentPlayerScore) { this.playerScores[idx] = currentPlayerScore }
 			})
 			this.currentPlayer = _.find(allPlayers, (v) => v.id == id)
@@ -80,7 +80,7 @@ export class DetailsComponent implements OnInit {
 					player2: 0
 				}
 				let draws = 0;
-				_.each(response, function (v) {
+				_.each(response, (v) => {
 					let firstPlayerScore = ""
 					let secondPlayerScore = ""
 

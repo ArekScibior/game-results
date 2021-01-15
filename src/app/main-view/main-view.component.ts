@@ -56,12 +56,12 @@ export interface DialogData {
 let selectedGame = ""
 let LOGO_GAMES: Logos[]
 
-const mapScoreTable = function (scoreTable) {
-  scoreTable.sort(function (a, b) {
+const mapScoreTable = (scoreTable) => {
+  scoreTable.sort((a, b) => {
     return a.points - b.points || a.scored - b.scored;
   }).reverse();
 
-  _.each(scoreTable, function (v, idx) {
+  _.each(scoreTable, (v, idx) => {
     let winRate = 0
     if (v.matches == 0) {
       winRate = 0
@@ -90,7 +90,7 @@ export class MainViewComponent implements OnInit {
   cheatIndex = 0;
   cheat = [105, 100, 100, 113, 100];
   timeoutPromise
-  bodyKeypress = function (event) {
+  bodyKeypress = (event) => {
     this.timeoutPromise = setTimeout(() => { _.identity, 0 });
     if (event.which === this.cheat[this.cheatIndex]) {
       clearTimeout(this.timeoutPromise);
@@ -161,7 +161,6 @@ export class MainViewComponent implements OnInit {
 
     let initialGame = mapScoreTable(this.scores['fifa21'])
     this.store.set('score', this.scores)
-    
     this.fullDataSource = JSON.parse(JSON.stringify(this.initialGame))
     this.namesToFilter = _.pluck(this.initialGame, 'name')
     this.dataSource = new MatTableDataSource<ScoreElement>(initialGame);
@@ -171,7 +170,7 @@ export class MainViewComponent implements OnInit {
     this.loading = false
   }
 
-  getData = function () {
+  getData = () => {
     let callback = (data) => {
       this.scores = data[0]
       this.gamesSource = data[1]
@@ -216,7 +215,7 @@ export class MainViewComponent implements OnInit {
     if (_.isEmpty(this.fullDataSource)) {
       this.fullDataSource = JSON.parse(JSON.stringify(this.dataSource.filteredData))
     }
-    let filtered = _.filter(this.fullDataSource, function (v) { return v.name.toLowerCase().indexOf(value.toLowerCase()) != -1 })
+    let filtered = _.filter(this.fullDataSource, (v) => v.name.toLowerCase().indexOf(value.toLowerCase()) != -1 )
     this.dataSource = new MatTableDataSource<ScoreElement>(filtered);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
