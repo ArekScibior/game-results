@@ -10,7 +10,8 @@
       </div>
       <div class="row" style="margin:0">
         <div class="col-md-1">
-          <img src="../../assets/blank_avatar.svg" alt="avatar" width="150px;">
+          <img *ngIf="imageSrc !== ''" [src]="imageSrc" alt="avatar" width="150px;">
+          <img *ngIf="imageSrc === ''" src="../../assets/blank_avatar.svg" alt="avatar" width="150px;">
         </div>
         <div class="col-md-10">
           <div class="details-player">

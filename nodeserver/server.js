@@ -354,7 +354,8 @@ function handleDataPlayersSet(res, param, body) {
             id: dataPlayers.length + 1,
             name: player.name,
             age: player.age,
-            favouriteClub: player.favouriteClub
+            favouriteClub: player.favouriteClub,
+            avatarBase64: player.avatarBase64
         }
         dataPlayers.push(playerMapped)
         var newFile = _.omit(getFileData(filename),'data')

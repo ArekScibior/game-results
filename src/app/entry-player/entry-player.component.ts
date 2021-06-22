@@ -19,10 +19,12 @@ export class EntryPlayerComponent implements OnInit {
 		@Inject(MAT_DIALOG_DATA) public data: any,
 		public dialogRef: MatDialogRef<EntryPlayerComponent>) { }
 
-	name = '';
-	age = '';
+	name 					= '';
+	age 					= '';
 	favouriteClub = '';
-	clubs = _.sortBy(_.map(_.pluck(_.flatten(_.pluck(CLUBS, 'clubs')), 'name')));
+	avatarBase64;
+	avatar;
+	clubs 				= _.sortBy(_.map(_.pluck(_.flatten(_.pluck(CLUBS, 'clubs')), 'name')));
 
 	close(): void {
 		this.dialogRef.close();
@@ -47,11 +49,25 @@ export class EntryPlayerComponent implements OnInit {
 		return false;
 	}
 
+	handleUpload(event): void {
+		if (!event.target.files.length) {
+			this.avatarBase64 = ""
+		} else {
+			const file = event.target.files[0];
+			const reader = new FileReader();
+			reader.readAsDataURL(file);
+			reader.onload = () => {
+				this.avatarBase64 = reader.result	
+			};
+		}
+}
+
 	save(): void {
 		this.data.dataPlayer = {
 			name: this.name,
 			age: this.age,
-			favouriteClub: this.favouriteClub
+			favouriteClub: this.favouriteClub,
+			avatarBase64: this.avatarBase64
 		}
 		if (this.valid(this.data.dataPlayer)) { return }
 

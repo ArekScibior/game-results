@@ -24,6 +24,13 @@
     [typeaheadOptionsInScrollableView]="5"
     class="form-control">
   </div>
+  <div class="col-md-12">
+    <label><b>Zdjęcie:</b></label>
+   </div>
+   <div class="col-md-12 input  entry-input">
+     <input [(ngModel)]="avatar" type="file" (change)="handleUpload($event)"
+     class="form-control">
+   </div>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="close()">Anuluj</button>
