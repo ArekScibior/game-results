@@ -444,8 +444,8 @@ async function handleDataPlayersSet(res, param, body) {
 
 	updateScoreTable = async function() {
 		var dataScore = await getFileData("data_score");
-        var dataScore = dataScore.data
-		_.each(dataScore, function(el) {
+        var scoreData = dataScore.data
+		_.each(scoreData, function(el) {
 			var emptyObject = {
 				idPlayer: _.last(dataPlayers).id,
 				conceded: 0,
@@ -460,8 +460,10 @@ async function handleDataPlayersSet(res, param, body) {
 			}
 			el.push(emptyObject)
 		})
-		var newFile = _.omit(dataScore,'data')
-		newFile.data = dataScore
+
+		var newFile = {
+			data: scoreData
+		}
 
 		client.connect(function(err, db) {
 			if (err) throw err;

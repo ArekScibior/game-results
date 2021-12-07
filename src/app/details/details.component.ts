@@ -1,7 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
-import { DomSanitizer } from '@angular/platform-browser';
 import { StorageCommonsService } from '../common/storage-commons.service';
 import { DataproviderService } from '../common/dataprovider.service';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material'
@@ -28,7 +26,6 @@ export class DetailsComponent implements OnInit {
 		public store: StorageCommonsService,
 		public toastr: ToastrService,
 		public dataprovider: DataproviderService,
-		public sanitizer: DomSanitizer,
 
 	) { }
 
@@ -70,7 +67,7 @@ export class DetailsComponent implements OnInit {
 			this.fifa21Score = this.playerScores['fifa21']
 
 			if (this.currentPlayer.avatarBase64 && this.currentPlayer.avatarBase64 !== '') {
-				this.imageSrc = this.sanitizer.bypassSecurityTrustResourceUrl(this.currentPlayer.avatarBase64);
+				this.imageSrc = this.currentPlayer.avatarBase64;
 			} else {
 				this.imageSrc = ""
 			}

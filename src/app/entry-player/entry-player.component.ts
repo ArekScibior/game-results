@@ -74,7 +74,7 @@ export class EntryPlayerComponent implements OnInit {
 		let dataToSend = {
 			dataPlayer: this.data.dataPlayer
 		}
-
+		console.log('dataToSend',dataToSend)
 		this.dialogRef.close(dataToSend);
 	}
 
