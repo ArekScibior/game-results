@@ -8,10 +8,33 @@
   </div>    
 
   <div class="col-md-12">
-    <label><b>Wiek:</b></label>
+    <label><b>Data urodzenia:</b></label>
   </div>
   <div class="col-md-12 input entry-input">
-    <input type="text" [(ngModel)]="age" class="form-control"/>
+    <!-- <input type="text" [(ngModel)]="age" class="form-control"/> -->
+
+    <mat-form-field appearance="outline">
+
+      <input [(ngModel)]="dateOfBirth" matInput [matDatepicker]="basicDatepicker">
+      <mat-datepicker-toggle matPrefix [for]="basicDatepicker">
+        <mat-icon matDatepickerToggleIcon>
+          calendar_month
+        </mat-icon>
+      </mat-datepicker-toggle>
+      <mat-datepicker #basicDatepicker></mat-datepicker>
+
+    </mat-form-field>
+
+
+    <!-- <mat-form-field appearance="outline">
+      <input  [(ngModel)]="" matInput formControlName="releasedAt" [matDatepicker]="releasedAtPicker">
+      <mat-datepicker-toggle matPrefix [for]="releasedAtPicker">
+        <mat-icon matDatepickerToggleIcon>
+          calendar_month
+        </mat-icon>
+      </mat-datepicker-toggle>
+      <mat-datepicker #releasedAtPicker></mat-datepicker>
+    </mat-form-field> -->
   </div>
 
   <div class="col-md-12">
@@ -28,7 +51,7 @@
     <label><b>Zdjęcie:</b></label>
    </div>
    <div class="col-md-12 input  entry-input">
-     <input [(ngModel)]="avatar" type="file" (change)="handleUpload($event)"
+     <input style="height: 100%;" [(ngModel)]="avatar" type="file" (change)="handleUpload($event)"
      class="form-control">
    </div>
 </div>

@@ -423,16 +423,18 @@ async function handleDataPlayersSet(res, param, body) {
 
 	if (player) {
 		var exist = _.find(dataPlayers, function(v) {
-			return v.name == player.name && v.age == player.age
+			return v.name == player.name && v.dateOfBirth == player.dateOfBirth
 		})
 		if (exist) {
 			writeResponse(res, {status:{status_code:"E",status: "Wpisany gracz istnieje już w systemie."}}); 
 			return
 		}
+		var age = moment().diff(player.dateOfBirth, 'years')
 		playerMapped = {
 			id: dataPlayers.length + 1,
 			name: player.name,
-			age: player.age,
+			dateOfBirth: player.dateOfBirth,
+			age: age,
 			favouriteClub: player.favouriteClub,
 			avatarBase64: player.avatarBase64
 		}
