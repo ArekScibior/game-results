@@ -75,6 +75,7 @@ export class DetailsComponent implements OnInit {
 	}
 
 	getMatchesH2H() {
+		//comment to test branch
 		this.hideTable = true;
 		this.loading = true;
 		this.dataprovider.getMatches({ player1: this.currentPlayer.name, player2: this.player2, game: 'fifa21' }).subscribe(response => {
